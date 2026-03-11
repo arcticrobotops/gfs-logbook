@@ -69,7 +69,7 @@ export default async function ProductPage({
       <div className="max-w-5xl mx-auto px-4 pt-6 pb-2">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-graphite hover:text-signal-red transition-colors"
+          className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-graphite hover:text-signal-red transition-colors"
         >
           <span>&larr;</span>
           <span>RETURN TO STATION LOG</span>
@@ -83,7 +83,7 @@ export default async function ProductPage({
             <h1 className="font-mono text-[11px] tracking-[0.3em] text-navy font-bold">
               ITEM RECORD
             </h1>
-            <span className="font-mono text-[9px] tracking-[0.2em] text-brass">
+            <span className="font-mono text-[11px] tracking-[0.2em] text-brass">
               GHOST FOREST SURF CLUB
             </span>
           </div>
@@ -96,7 +96,7 @@ export default async function ProductPage({
             {primaryImage && (
               <div className="border-[2.5px] border-navy">
                 <div className="px-3 py-2 flex items-center justify-between border-b-[1.5px] border-navy/20">
-                  <span className="font-mono text-[9px] tracking-[0.2em] text-graphite">
+                  <span className="font-mono text-[11px] tracking-[0.2em] text-graphite">
                     PHOTOGRAPH &mdash; ITEM 001
                   </span>
                   <span className="diamond-sep" />
@@ -123,7 +123,7 @@ export default async function ProductPage({
                     className="border-[1.5px] border-navy/30"
                   >
                     <div className="px-2 py-1 border-b border-navy/10">
-                      <span className="font-mono text-[7px] tracking-[0.15em] text-graphite">
+                      <span className="font-mono text-[11px] tracking-[0.15em] text-graphite">
                         PHOTO {String(i + 2).padStart(3, '0')}
                       </span>
                     </div>
@@ -151,7 +151,7 @@ export default async function ProductPage({
 
             {/* Issue price */}
             <div className="mb-6">
-              <span className="font-mono text-[10px] tracking-[0.2em] text-graphite">
+              <span className="font-mono text-[11px] tracking-[0.2em] text-graphite">
                 ISSUED AT:{' '}
               </span>
               <span className="font-mono text-lg tracking-[0.1em] text-signal-red font-bold">
@@ -164,7 +164,7 @@ export default async function ProductPage({
             {/* Item data grid */}
             <div className="border-[2px] border-navy mb-6">
               <div className="px-3 py-2 border-b-[1.5px] border-navy/20">
-                <span className="font-mono text-[9px] tracking-[0.25em] text-navy font-semibold">
+                <span className="font-mono text-[11px] tracking-[0.25em] text-navy font-semibold">
                   ITEM DATA
                 </span>
               </div>
@@ -172,42 +172,42 @@ export default async function ProductPage({
               <div className="divide-y divide-navy/10">
                 {collection && (
                   <div className="px-3 py-2.5 flex justify-between items-center">
-                    <span className="font-mono text-[9px] tracking-[0.2em] text-graphite">
+                    <span className="font-mono text-[11px] tracking-[0.2em] text-graphite">
                       DEPT:
                     </span>
-                    <span className="font-mono text-[10px] tracking-[0.15em] text-navy font-medium">
+                    <span className="font-mono text-[11px] tracking-[0.15em] text-navy font-medium">
                       {collection.title.toUpperCase()}
                     </span>
                   </div>
                 )}
                 <div className="px-3 py-2.5 flex justify-between items-center">
-                  <span className="font-mono text-[9px] tracking-[0.2em] text-graphite">
+                  <span className="font-mono text-[11px] tracking-[0.2em] text-graphite">
                     ISSUE PRICE:
                   </span>
-                  <span className="font-mono text-[10px] tracking-[0.15em] text-signal-red font-medium">
+                  <span className="font-mono text-[11px] tracking-[0.15em] text-signal-red font-medium">
                     ${formattedPrice}
                   </span>
                 </div>
                 <div className="px-3 py-2.5 flex justify-between items-center">
-                  <span className="font-mono text-[9px] tracking-[0.2em] text-graphite">
+                  <span className="font-mono text-[11px] tracking-[0.2em] text-graphite">
                     STATION:
                   </span>
-                  <span className="font-mono text-[10px] tracking-[0.15em] text-navy font-medium">
+                  <span className="font-mono text-[11px] tracking-[0.15em] text-navy font-medium">
                     OREGON COAST
                   </span>
                 </div>
                 <div className="px-3 py-2.5 flex justify-between items-center">
-                  <span className="font-mono text-[9px] tracking-[0.2em] text-graphite">
+                  <span className="font-mono text-[11px] tracking-[0.2em] text-graphite">
                     STATUS:
                   </span>
-                  <span className="stamp stamp-brass text-[8px]">AVAILABLE</span>
+                  <span className="stamp stamp-brass text-[11px]">AVAILABLE</span>
                 </div>
                 {product.productType && (
                   <div className="px-3 py-2.5 flex justify-between items-center">
-                    <span className="font-mono text-[9px] tracking-[0.2em] text-graphite">
+                    <span className="font-mono text-[11px] tracking-[0.2em] text-graphite">
                       TYPE:
                     </span>
-                    <span className="font-mono text-[10px] tracking-[0.15em] text-navy font-medium">
+                    <span className="font-mono text-[11px] tracking-[0.15em] text-navy font-medium">
                       {product.productType.toUpperCase()}
                     </span>
                   </div>
@@ -221,7 +221,7 @@ export default async function ProductPage({
                 {product.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="font-mono text-[8px] tracking-[0.15em] text-graphite border border-navy/20 px-2 py-1"
+                    className="font-mono text-[11px] tracking-[0.15em] text-graphite border border-navy/20 px-2 py-1"
                   >
                     {tag.toUpperCase()}
                   </span>
@@ -233,7 +233,7 @@ export default async function ProductPage({
             {product.descriptionHtml && (
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="font-mono text-[9px] tracking-[0.25em] text-navy font-semibold">
+                  <span className="font-mono text-[11px] tracking-[0.25em] text-navy font-semibold">
                     STATION NOTES
                   </span>
                   <div className="flex-1 h-px bg-navy/10" />
@@ -253,7 +253,7 @@ export default async function ProductPage({
             {product.variants.edges.length > 1 && (
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="font-mono text-[9px] tracking-[0.25em] text-navy font-semibold">
+                  <span className="font-mono text-[11px] tracking-[0.25em] text-navy font-semibold">
                     AVAILABLE OPTIONS
                   </span>
                   <div className="flex-1 h-px bg-navy/10" />
@@ -262,7 +262,7 @@ export default async function ProductPage({
                   {product.variants.edges.map(({ node: variant }) => (
                     <span
                       key={variant.id}
-                      className={`font-mono text-[9px] tracking-[0.15em] border px-3 py-1.5 ${
+                      className={`font-mono text-[11px] tracking-[0.15em] border px-3 py-1.5 ${
                         variant.availableForSale
                           ? 'text-navy border-navy/30'
                           : 'text-graphite/40 border-navy/10 line-through'
@@ -285,7 +285,7 @@ export default async function ProductPage({
               REQUISITION ITEM
             </a>
 
-            <p className="font-mono text-[8px] tracking-[0.15em] text-graphite/60 text-center mt-3">
+            <p className="font-mono text-[11px] tracking-[0.15em] text-graphite/60 text-center mt-3">
               SECURE CHECKOUT VIA SHOPIFY
             </p>
           </div>

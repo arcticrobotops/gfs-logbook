@@ -110,7 +110,7 @@ a:hover {
 /* Stamp treatment - bordered uppercase mono text */
 .stamp {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   border: 1.5px solid currentColor;
@@ -149,7 +149,7 @@ a:hover {
 /* Diamond separator inline */
 .diamond-sep {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 7px;
+  font-size: 11px;
   color: #B8860B;
 }
 
