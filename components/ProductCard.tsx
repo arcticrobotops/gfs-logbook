@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { ShopifyProduct } from '@/types/shopify';
 
 interface ProductCardProps {
@@ -13,13 +14,9 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   const collection = product.collections.edges[0]?.node;
   const itemNumber = String(index + 1).padStart(3, '0');
 
-  const productUrl = product.onlineStoreUrl || `https://ghostforestsurfclub.com/products/${product.handle}`;
-
   return (
-    <a
-      href={productUrl}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href={`/products/${product.handle}`}
       className="group block border-[2.5px] border-navy bg-aged-cream transition-colors hover:border-signal-red"
     >
       {/* Item number header */}
@@ -75,6 +72,6 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           <span className="text-signal-red"><span className="hidden sm:inline">${formattedPrice}</span><span className="sm:hidden">{formattedPrice}</span></span>
         </p>
       </div>
-    </a>
+    </Link>
   );
 }
