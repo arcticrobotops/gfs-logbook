@@ -9,27 +9,27 @@ interface TextMomentProps {
 const TEXT_MOMENTS: Omit<TextMomentProps, 'entryNumber'>[] = [
   {
     variant: 'dark',
-    heading: 'WEATHER & CONDITIONS',
-    timestamp: '0630 HRS / WATCH 1',
-    body: 'Offshore winds 8-12kts. 8ft NW swell at 15 sec. Visibility: 2mi, fog clearing by 0800. Water temp: 52\u00b0F. Barometer steady at 30.12. All hands accounted for. Equipment check complete. Wetsuits issued.',
+    heading: 'NESKOWIN DAWN PATROL',
+    timestamp: '0545 HRS / PROPOSAL ROCK',
+    body: 'Fog sitting heavy on the ghost forest. Sitka spruces just shadows at the tideline. 48-degree water, glass from the rock to the point. One truck in the lot. The kind of morning that makes you forget everything except the next set.',
   },
   {
     variant: 'light',
-    heading: 'SUPPLY & INVENTORY',
-    timestamp: '1430 HRS / WATCH 2',
-    body: 'Shipment received via coastal supply route. 12 units cold water equipment cataloged. 4 boards inspected and racked. Manifest updated, serial numbers logged. All items serviceable. Ready for issue to station personnel.',
+    heading: 'WORKSHOP NOTE',
+    timestamp: '1430 HRS / THE SHED',
+    body: 'Pulled the winter wetsuits off the rack for final inspection. Every seam taped twice, every zipper salt-tested. If it can\u2019t handle a February session at Proposal Rock, it doesn\u2019t leave the workshop. Standards are the standards.',
   },
   {
     variant: 'dark',
-    heading: 'DAWN RECON',
-    timestamp: '0545 HRS / WATCH 1',
-    body: 'Pre-dawn. Fog bank holding at 500yds offshore. Swell building from the NW, 6-8ft at 14 seconds. Tide dropping through low. Glass conditions. Three crew dispatched to south point for observation. Report favorable.',
+    heading: 'TIDE LOG',
+    timestamp: '0630 HRS / CAPE LOOKOUT',
+    body: 'Where the Nestucca meets the Pacific, the water turns copper in the first light. 6-8ft, 14 seconds, building out of the northwest. The kind of swell that separates the lineup from the parking lot. Drove the coast road from Tillamook at first light.',
   },
   {
     variant: 'light',
-    heading: 'END OF WATCH',
-    timestamp: '1800 HRS / WATCH 3',
-    body: 'All equipment secured and inventoried. Surf report filed with regional command. Crew rotation complete. Tomorrow forecast: incoming NW swell, 10ft at 17 seconds. Station personnel to prepare cold water kits accordingly.',
+    heading: 'END OF SEASON',
+    timestamp: '1800 HRS / STATION 45\u00b0N',
+    body: 'Everything we build starts with the same question: would you trust it in the coldest water you\u2019ve ever paddled into? The ghost forest keeps score. The Pacific doesn\u2019t grade on a curve. Another winter logged.',
   },
 ];
 
