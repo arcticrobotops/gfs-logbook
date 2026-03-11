@@ -5,8 +5,8 @@ import Footer from '@/components/Footer';
 export const revalidate = 60;
 
 export default async function Home() {
-  let products = [];
-  let collections = [];
+  let products: any[] = [];
+  let collections: any[] = [];
 
   try {
     const [productsData, collectionsData] = await Promise.all([
