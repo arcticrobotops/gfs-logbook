@@ -20,14 +20,20 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       href={productUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block border-2 border-navy bg-aged-cream transition-colors hover:border-signal-red"
+      className="group block border-[2.5px] border-navy bg-aged-cream transition-colors hover:border-signal-red"
     >
       {/* Item number header */}
-      <div className="px-3 pt-3 pb-2">
-        <span className="font-mono text-[10px] tracking-[0.2em] text-graphite">
+      <div className="px-3 py-2.5 flex items-center justify-between">
+        <span className="font-mono text-[10px] tracking-[0.25em] text-navy font-semibold">
           ITEM {itemNumber}
         </span>
+        <span className="font-mono text-[9px] tracking-[0.15em] text-brass">
+          &#9670;
+        </span>
       </div>
+
+      {/* Divider */}
+      <div className="h-[1.5px] bg-navy/20" />
 
       {/* Product image */}
       {image && (
@@ -42,23 +48,29 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         </div>
       )}
 
+      {/* Divider */}
+      <div className="h-[1.5px] bg-navy/20" />
+
       {/* Product info */}
       <div className="px-3 pt-3 pb-4">
         {/* Department / Collection */}
         {collection && (
-          <p className="font-mono text-[9px] tracking-[0.2em] text-graphite mb-1.5">
+          <p className="font-mono text-[9px] tracking-[0.25em] text-graphite mb-2">
             DEPT: {collection.title.toUpperCase()}
           </p>
         )}
 
         {/* Product title */}
-        <h3 className="font-sans text-sm font-semibold tracking-[0.12em] text-navy uppercase leading-snug mb-2">
+        <h3 className="font-sans text-[13px] font-bold tracking-[0.08em] text-navy uppercase leading-snug mb-3">
           {product.title}
         </h3>
 
+        {/* Separator dot */}
+        <div className="w-full h-px bg-navy/10 mb-3" />
+
         {/* Price */}
-        <p className="font-mono text-xs tracking-[0.1em] text-navy">
-          ISSUED AT: ${formattedPrice}
+        <p className="font-mono text-xs tracking-[0.15em] text-navy font-medium">
+          ISSUED AT: <span className="text-signal-red">${formattedPrice}</span>
         </p>
       </div>
     </a>
