@@ -51,7 +51,7 @@ export default function TextMoment({ variant = 'dark', heading, timestamp, body,
     >
       {/* Entry number */}
       <p
-        className={`font-mono text-[11px] tracking-[0.3em] font-semibold mb-2 ${
+        className={`font-mono text-xs tracking-[0.3em] font-semibold mb-2 ${
           isDark ? 'text-brass' : 'text-brass'
         }`}
       >
@@ -61,13 +61,13 @@ export default function TextMoment({ variant = 'dark', heading, timestamp, body,
       {/* Brass separator */}
       <div className={`flex items-center gap-2 mb-3 ${isDark ? 'opacity-40' : 'opacity-30'}`}>
         <div className={`flex-1 h-px ${isDark ? 'bg-brass' : 'bg-brass'}`} />
-        <span className="font-mono text-[11px] text-brass">&#9670;</span>
+        <span className="font-mono text-xs text-brass">&#9670;</span>
         <div className={`flex-1 h-px ${isDark ? 'bg-brass' : 'bg-brass'}`} />
       </div>
 
       {heading && (
         <p
-          className={`font-mono text-[11px] tracking-[0.25em] mb-1 ${
+          className={`font-mono text-xs tracking-[0.25em] mb-1 ${
             isDark ? 'text-aged-cream/70' : 'text-signal-red'
           }`}
         >
@@ -75,7 +75,7 @@ export default function TextMoment({ variant = 'dark', heading, timestamp, body,
         </p>
       )}
       {timestamp && (
-        <p className={`font-mono text-[11px] tracking-[0.1em] mb-3 ${isDark ? 'text-aged-cream/50' : 'text-graphite/60'}`}>
+        <p className={`font-mono text-xs tracking-[0.1em] mb-3 ${isDark ? 'text-aged-cream/50' : 'text-graphite/60'}`}>
           {timestamp}
         </p>
       )}
@@ -86,7 +86,7 @@ export default function TextMoment({ variant = 'dark', heading, timestamp, body,
       {/* Bottom brass separator */}
       <div className={`flex items-center gap-2 mt-4 ${isDark ? 'opacity-30' : 'opacity-20'}`}>
         <div className={`flex-1 h-px ${isDark ? 'bg-brass' : 'bg-brass'}`} />
-        <span className="font-mono text-[11px] text-brass">&#9632;</span>
+        <span className="font-mono text-xs text-brass">&#9632;</span>
         <div className={`flex-1 h-px ${isDark ? 'bg-brass' : 'bg-brass'}`} />
       </div>
     </div>
