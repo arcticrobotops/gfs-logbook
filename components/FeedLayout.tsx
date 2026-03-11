@@ -70,6 +70,25 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
       />
 
       <main className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Editorial intro — warmth before the ledger */}
+        <div className="mb-8 sm:mb-12 px-1 sm:px-0">
+          <div className="max-w-xl">
+            <p className="font-mono text-[9px] sm:text-[10px] tracking-[0.3em] text-brass mb-4 sm:mb-5">
+              STATION 45&deg;06&prime;N &mdash; NESKOWIN, OREGON
+            </p>
+            <div className="w-8 h-px bg-brass/40 mb-5 sm:mb-6" />
+            <h2 className="font-playfair text-xl sm:text-2xl lg:text-[28px] text-navy font-bold leading-[1.3] tracking-wide mb-4 sm:mb-5">
+              Coldwater goods logged and issued from the edge of the ghost forest.
+            </h2>
+            <p className="font-sans text-[13px] sm:text-sm text-graphite/70 leading-relaxed max-w-md">
+              Every piece in this manifest was tested in 48-degree water off Proposal Rock before it earned a place in the lineup. Built for fog, salt, and the long paddle north.
+            </p>
+            <p className="font-mono text-[8px] tracking-[0.25em] text-graphite/35 mt-5 sm:mt-6 uppercase">
+              Current inventory &middot; {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short' }).toUpperCase()}
+            </p>
+          </div>
+        </div>
+
         {/* Inventory manifest header */}
         <div className="mb-6 sm:mb-8 border-2 border-navy p-3 sm:p-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-2">
