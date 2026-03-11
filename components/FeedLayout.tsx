@@ -72,15 +72,56 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
         </div>
 
         {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <p className="font-mono text-xs tracking-[0.2em] text-graphite animate-pulse">
-              LOADING MANIFEST...
-            </p>
+          <div className="py-12">
+            {/* Station-style loading skeleton */}
+            <div className="border-2 border-navy/20 p-6 mb-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-px flex-1 bg-navy/10" />
+                <p className="font-mono text-[10px] tracking-[0.3em] text-brass animate-pulse">
+                  RETRIEVING MANIFEST...
+                </p>
+                <div className="h-px flex-1 bg-navy/10" />
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[9px] text-navy/30">001</span>
+                  <div className="h-2 bg-navy/8 flex-1" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[9px] text-navy/30">002</span>
+                  <div className="h-2 bg-navy/6 w-3/4" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[9px] text-navy/30">003</span>
+                  <div className="h-2 bg-navy/4 w-1/2" />
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="border border-navy/10">
+                  <div className="px-2 py-2">
+                    <div className="h-1.5 bg-navy/8 w-12" />
+                  </div>
+                  <div className="h-px bg-navy/5" />
+                  <div className="h-40 bg-navy/3" />
+                  <div className="h-px bg-navy/5" />
+                  <div className="px-2 py-3 space-y-1.5">
+                    <div className="h-1.5 bg-navy/6 w-full" />
+                    <div className="h-1.5 bg-navy/4 w-2/3" />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ) : products.length === 0 ? (
-          <div className="flex items-center justify-center py-20">
+          <div className="border-2 border-navy/20 p-8 text-center">
+            <p className="font-mono text-[10px] tracking-[0.25em] text-brass mb-2">&#9670;</p>
             <p className="font-mono text-xs tracking-[0.2em] text-graphite">
               NO ITEMS IN THIS DEPARTMENT
+            </p>
+            <p className="font-mono text-[9px] tracking-[0.15em] text-graphite/50 mt-1">
+              INVENTORY RECORDS EMPTY
             </p>
           </div>
         ) : (
