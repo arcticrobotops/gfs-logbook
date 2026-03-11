@@ -17,8 +17,11 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.handle}`}
-      className="group block border-[2.5px] border-navy bg-aged-cream transition-colors hover:border-signal-red"
+      className="group block border-2 border-navy bg-aged-cream transition-colors hover:border-signal-red"
     >
+      {/* Brass accent top edge */}
+      <div className="h-[2px] bg-brass/30 group-hover:bg-brass/50 transition-colors" />
+
       {/* Item number header */}
       <div className="px-3 py-2.5 flex items-center justify-between">
         <span className="font-mono text-[10px] tracking-[0.25em] text-navy font-semibold">
@@ -66,10 +69,10 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         <div className="w-full h-px bg-navy/10 mb-2 sm:mb-3" />
 
         {/* Price */}
-        <p className="font-mono text-[11px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] text-navy font-medium">
-          <span className="hidden sm:inline">ISSUED AT: </span>
-          <span className="sm:hidden">$</span>
-          <span className="text-signal-red"><span className="hidden sm:inline">${formattedPrice}</span><span className="sm:hidden">{formattedPrice}</span></span>
+        <p className="font-mono text-[11px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] font-medium">
+          <span className="hidden sm:inline text-brass/70">ISSUED AT: </span>
+          <span className="sm:hidden text-navy/50">$</span>
+          <span className="text-navy font-semibold">${formattedPrice}</span>
         </p>
       </div>
     </Link>
