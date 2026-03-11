@@ -33,10 +33,11 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
     }
   }, []);
 
-  // Build feed items: interleave products with editorials and text moments
-  const feedItems: Array<{ type: 'product' | 'editorial' | 'text'; index: number; productIndex?: number }> = [];
+  // Build feed items: interleave products with editorials, text moments, and dividers
+  const feedItems: Array<{ type: 'product' | 'editorial' | 'text' | 'divider'; index: number; productIndex?: number }> = [];
   let editorialCount = 0;
   let textCount = 0;
+  let dividerCount = 0;
 
   products.forEach((_, i) => {
     feedItems.push({ type: 'product', index: i, productIndex: i });
@@ -52,6 +53,12 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
       feedItems.push({ type: 'text', index: textCount });
       textCount++;
     }
+
+    // Insert brass divider every 6 products
+    if ((i + 1) % 6 === 0 && (i + 1) % 4 !== 0) {
+      feedItems.push({ type: 'divider', index: dividerCount });
+      dividerCount++;
+    }
   });
 
   return (
@@ -63,11 +70,39 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
       />
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        {/* Inventory header */}
-        <div className="mb-6 border-b border-navy/20 pb-3">
-          <p className="font-mono text-[10px] tracking-[0.2em] text-graphite">
-            INVENTORY MANIFEST — {products.length} ITEMS CATALOGED
-            {activeCollection !== 'all' && ` — DEPT: ${activeCollection.toUpperCase()}`}
+        {/* Inventory manifest header */}
+        <div className="mb-8 border-2 border-navy p-4 sm:p-5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <p className="font-mono text-[11px] tracking-[0.25em] text-navy font-semibold">
+                INVENTORY MANIFEST
+              </p>
+              <p className="font-mono text-[9px] tracking-[0.15em] text-graphite mt-1">
+                STATION 45&deg;N <span className="text-brass">&#9670;</span> GHOST FOREST SURF CLUB
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-[9px] tracking-[0.2em] text-brass font-semibold">
+                {products.length} ITEMS CATALOGED
+              </span>
+              {activeCollection !== 'all' && (
+                <>
+                  <span className="text-brass/40 font-mono text-[7px]">&#9670;</span>
+                  <span className="font-mono text-[9px] tracking-[0.15em] text-signal-red font-semibold">
+                    DEPT: {activeCollection.toUpperCase()}
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
+          {/* Brass rule inside header */}
+          <div className="flex items-center gap-2 mt-3">
+            <div className="flex-1 h-px bg-brass/20" />
+            <span className="font-mono text-[6px] text-brass/40">&#9632;</span>
+            <div className="flex-1 h-px bg-brass/20" />
+          </div>
+          <p className="font-mono text-[8px] tracking-[0.2em] text-graphite/50 mt-2">
+            DATE: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase()} / CLASSIFICATION: GENERAL
           </p>
         </div>
 
@@ -125,6 +160,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
             </p>
           </div>
         ) : (
+          <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
             {feedItems.map((item, feedIndex) => {
               if (item.type === 'product') {
@@ -155,9 +191,43 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
                 );
               }
 
+              if (item.type === 'divider') {
+                return (
+                  <div key={`divider-${feedIndex}`} className="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 py-2">
+                    <div className="flex items-center gap-3">
+                      <div className="flex-1 h-px bg-brass/25" />
+                      <span className="font-mono text-[7px] text-brass/50">&#9670;</span>
+                      <span className="font-mono text-[8px] tracking-[0.3em] text-brass/40">
+                        CONTINUED
+                      </span>
+                      <span className="font-mono text-[7px] text-brass/50">&#9670;</span>
+                      <div className="flex-1 h-px bg-brass/25" />
+                    </div>
+                  </div>
+                );
+              }
+
               return null;
             })}
           </div>
+
+          {/* END OF MANIFEST marker */}
+          <div className="mt-8 pt-6">
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px bg-navy/20" />
+              <span className="font-mono text-[7px] text-navy/30">&#9632;</span>
+              <div className="flex-1 h-px bg-navy/20" />
+            </div>
+            <div className="text-center mt-4">
+              <p className="font-mono text-[10px] tracking-[0.35em] text-graphite/50">
+                &#9670; END OF MANIFEST &#9670;
+              </p>
+              <p className="font-mono text-[8px] tracking-[0.2em] text-graphite/30 mt-1">
+                {products.length} ITEMS TOTAL / STATION 45&deg;N
+              </p>
+            </div>
+          </div>
+          </>
         )}
       </main>
     </>
