@@ -16,18 +16,21 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
   const [products, setProducts] = useState<ShopifyProduct[]>(initialProducts);
   const [activeCollection, setActiveCollection] = useState('all');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleCollectionChange = useCallback(async (handle: string) => {
     setActiveCollection(handle);
     setLoading(true);
+    setError(false);
 
     try {
       const params = handle !== 'all' ? `?collection=${handle}` : '';
       const res = await fetch(`/api/products${params}`);
       const data = await res.json();
       setProducts(data.products || []);
-    } catch (error) {
-      console.error('Failed to fetch products:', error);
+    } catch (err) {
+      console.error('Failed to fetch products:', err);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -125,7 +128,23 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
           </p>
         </div>
 
-        {loading ? (
+        {error ? (
+          <div className="border-2 border-signal-red/30 p-8 text-center">
+            <p className="font-mono text-[11px] tracking-[0.25em] text-signal-red mb-2">&#9670;</p>
+            <p className="font-mono text-xs tracking-[0.2em] text-signal-red font-semibold">
+              TRANSMISSION ERROR
+            </p>
+            <p className="font-mono text-[11px] tracking-[0.15em] text-graphite/60 mt-1 mb-4">
+              FAILED TO RETRIEVE MANIFEST DATA
+            </p>
+            <button
+              onClick={() => handleCollectionChange(activeCollection)}
+              className="font-mono text-[11px] tracking-[0.2em] text-aged-cream bg-navy border-2 border-navy px-6 py-2.5 hover:bg-signal-red hover:border-signal-red transition-colors"
+            >
+              RETRY TRANSMISSION
+            </button>
+          </div>
+        ) : loading ? (
           <div className="py-12">
             {/* Station-style loading skeleton */}
             <div className="border-2 border-navy/20 p-6 mb-6">

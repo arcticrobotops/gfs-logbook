@@ -48,20 +48,20 @@ export default function EditorialCard({ imageUrl, alt, date, caption, frameNumbe
       <div className="px-3 pt-3 pb-2 border-b border-navy/20 flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <p className="font-mono text-[10px] tracking-[0.2em] text-signal-red font-semibold">
+            <p className="font-mono text-[11px] tracking-[0.2em] text-signal-red font-semibold">
               FIELD REPORT
             </p>
-            <span className="font-mono text-[7px] text-brass">&#9670;</span>
-            <p className="font-mono text-[10px] tracking-[0.2em] text-navy">
+            <span className="font-mono text-[11px] text-brass">&#9670;</span>
+            <p className="font-mono text-[11px] tracking-[0.2em] text-navy">
               PHOTOGRAPH
             </p>
           </div>
-          <p className="font-mono text-[9px] tracking-[0.15em] text-graphite mt-0.5">
+          <p className="font-mono text-[11px] tracking-[0.15em] text-graphite mt-0.5">
             DATE: {date || 'MAR 2024'} / STATION: 45&deg;N
           </p>
         </div>
         {/* Film frame number */}
-        <p className="font-mono text-[9px] tracking-[0.2em] text-brass font-semibold">
+        <p className="font-mono text-[11px] tracking-[0.2em] text-brass font-semibold">
           FR. {frameNum}
         </p>
       </div>
@@ -85,7 +85,7 @@ export default function EditorialCard({ imageUrl, alt, date, caption, frameNumbe
       {/* Caption */}
       {caption && (
         <div className="px-3 py-3 border-t border-navy/20">
-          <p className="font-mono text-[9px] tracking-[0.1em] text-graphite leading-relaxed">
+          <p className="font-mono text-[11px] tracking-[0.1em] text-graphite leading-relaxed">
             {caption}
           </p>
         </div>

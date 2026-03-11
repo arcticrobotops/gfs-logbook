@@ -63,8 +63,55 @@ export default async function ProductPage({
     product.onlineStoreUrl ||
     `https://ghostforestsurfclub.com/products/${product.handle}`;
 
+  const minPrice = parseFloat(product.priceRange.minVariantPrice.amount);
+  const maxPrice = parseFloat(product.priceRange.maxVariantPrice.amount);
+  const currencyCode = product.priceRange.minVariantPrice.currencyCode;
+  const hasMultiplePrices = minPrice !== maxPrice;
+  const anyAvailable = product.variants.edges.some(({ node }) => node.availableForSale);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    description: product.description || undefined,
+    image: images.map((img) => img.url),
+    brand: {
+      '@type': 'Brand',
+      name: 'Ghost Forest Surf Club',
+    },
+    ...(hasMultiplePrices
+      ? {
+          offers: {
+            '@type': 'AggregateOffer',
+            lowPrice: minPrice.toFixed(2),
+            highPrice: maxPrice.toFixed(2),
+            priceCurrency: currencyCode,
+            availability: anyAvailable
+              ? 'https://schema.org/InStock'
+              : 'https://schema.org/OutOfStock',
+            offerCount: product.variants.edges.length,
+            url: shopifyUrl,
+          },
+        }
+      : {
+          offers: {
+            '@type': 'Offer',
+            price: minPrice.toFixed(2),
+            priceCurrency: currencyCode,
+            availability: anyAvailable
+              ? 'https://schema.org/InStock'
+              : 'https://schema.org/OutOfStock',
+            url: shopifyUrl,
+          },
+        }),
+  };
+
   return (
     <main className="min-h-screen bg-aged-cream text-navy">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Back navigation */}
       <div className="max-w-5xl mx-auto px-4 pt-6 pb-2">
         <Link

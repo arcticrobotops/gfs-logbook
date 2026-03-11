@@ -24,10 +24,10 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
       {/* Item number header */}
       <div className="px-3 py-2.5 flex items-center justify-between">
-        <span className="font-mono text-[10px] tracking-[0.25em] text-navy font-semibold">
+        <span className="font-mono text-[11px] tracking-[0.25em] text-navy font-semibold">
           ITEM {itemNumber}
         </span>
-        <span className="font-mono text-[9px] tracking-[0.15em] text-brass">
+        <span className="font-mono text-[11px] tracking-[0.15em] text-brass">
           &#9670;
         </span>
       </div>
@@ -55,7 +55,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       <div className="px-2.5 sm:px-3 pt-2.5 sm:pt-3 pb-3 sm:pb-4">
         {/* Department / Collection */}
         {collection && (
-          <p className="font-mono text-[8px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.25em] text-graphite mb-1.5 sm:mb-2 truncate">
+          <p className="font-mono text-[11px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.25em] text-graphite mb-1.5 sm:mb-2 truncate">
             DEPT: {collection.title.toUpperCase()}
           </p>
         )}

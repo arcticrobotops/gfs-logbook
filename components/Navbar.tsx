@@ -30,12 +30,12 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
               <h1 className="font-playfair text-lg sm:text-xl lg:text-2xl font-bold text-navy tracking-wide leading-tight">
                 COAST STATION LOG
               </h1>
-              <span className="hidden sm:inline font-mono text-[9px] tracking-[0.2em] text-brass">&#9670;</span>
-              <span className="hidden sm:inline font-mono text-[9px] tracking-[0.2em] text-brass font-semibold">
+              <span className="hidden sm:inline font-mono text-[11px] tracking-[0.2em] text-brass">&#9670;</span>
+              <span className="hidden sm:inline font-mono text-[11px] tracking-[0.2em] text-brass font-semibold">
                 STATION 45 N
               </span>
             </div>
-            <p className="font-mono text-[10px] sm:text-xs text-graphite tracking-[0.2em] mt-0.5">
+            <p className="font-mono text-[11px] sm:text-xs text-graphite tracking-[0.2em] mt-0.5">
               GHOST FOREST SURF CLUB <span className="text-brass">&#9670;</span> NESKOWIN, OR
             </p>
           </div>
@@ -44,7 +44,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           <div className="hidden md:flex items-center gap-1 lg:gap-2">
             <button
               onClick={() => onCollectionChange('all')}
-              className={`font-mono text-[10px] lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+              className={`font-mono text-[11px] lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
                 activeCollection === 'all'
                   ? 'bg-navy text-aged-cream border-navy'
                   : 'bg-transparent text-navy border-navy/30 hover:border-navy hover:bg-navy/5'
@@ -54,10 +54,10 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
             </button>
             {filteredCollections.map((collection, i) => (
               <span key={collection.handle} className="flex items-center gap-1 lg:gap-2">
-                <span className="font-mono text-[8px] text-brass/50">&#9670;</span>
+                <span className="font-mono text-[11px] text-brass/50">&#9670;</span>
                 <button
                   onClick={() => onCollectionChange(collection.handle)}
-                  className={`font-mono text-[10px] lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+                  className={`font-mono text-[11px] lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
                     activeCollection === collection.handle
                       ? 'bg-navy text-aged-cream border-navy'
                       : 'bg-transparent text-navy border-navy/30 hover:border-navy hover:bg-navy/5'
@@ -83,7 +83,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           <div className="md:hidden pb-4 flex flex-wrap gap-2">
             <button
               onClick={() => { onCollectionChange('all'); setMobileMenuOpen(false); }}
-              className={`font-mono text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+              className={`font-mono text-[11px] tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
                 activeCollection === 'all'
                   ? 'bg-navy text-aged-cream border-navy'
                   : 'bg-transparent text-navy border-navy/30'
@@ -95,7 +95,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
               <button
                 key={collection.handle}
                 onClick={() => { onCollectionChange(collection.handle); setMobileMenuOpen(false); }}
-                className={`font-mono text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+                className={`font-mono text-[11px] tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
                   activeCollection === collection.handle
                     ? 'bg-navy text-aged-cream border-navy'
                     : 'bg-transparent text-navy border-navy/30'
