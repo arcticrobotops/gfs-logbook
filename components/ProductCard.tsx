@@ -37,7 +37,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
       {/* Product image */}
       {image && (
-        <div className="relative w-full overflow-hidden" style={{ height: '310px' }}>
+        <div className="relative w-full overflow-hidden aspect-[3/4] sm:h-[310px] sm:aspect-auto">
           <Image
             src={image.url}
             alt={image.altText || product.title}
@@ -52,25 +52,27 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       <div className="h-[1.5px] bg-navy/20" />
 
       {/* Product info */}
-      <div className="px-3 pt-3 pb-4">
+      <div className="px-2.5 sm:px-3 pt-2.5 sm:pt-3 pb-3 sm:pb-4">
         {/* Department / Collection */}
         {collection && (
-          <p className="font-mono text-[9px] tracking-[0.25em] text-graphite mb-2">
+          <p className="font-mono text-[8px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.25em] text-graphite mb-1.5 sm:mb-2 truncate">
             DEPT: {collection.title.toUpperCase()}
           </p>
         )}
 
         {/* Product title */}
-        <h3 className="font-sans text-[13px] font-bold tracking-[0.08em] text-navy uppercase leading-snug mb-3">
+        <h3 className="font-sans text-[12px] sm:text-[13px] font-bold tracking-[0.06em] sm:tracking-[0.08em] text-navy uppercase leading-snug mb-2 sm:mb-3 line-clamp-2">
           {product.title}
         </h3>
 
         {/* Separator dot */}
-        <div className="w-full h-px bg-navy/10 mb-3" />
+        <div className="w-full h-px bg-navy/10 mb-2 sm:mb-3" />
 
         {/* Price */}
-        <p className="font-mono text-xs tracking-[0.15em] text-navy font-medium">
-          ISSUED AT: <span className="text-signal-red">${formattedPrice}</span>
+        <p className="font-mono text-[11px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] text-navy font-medium">
+          <span className="hidden sm:inline">ISSUED AT: </span>
+          <span className="sm:hidden">$</span>
+          <span className="text-signal-red"><span className="hidden sm:inline">${formattedPrice}</span><span className="sm:hidden">{formattedPrice}</span></span>
         </p>
       </div>
     </a>

@@ -69,26 +69,26 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
         onCollectionChange={handleCollectionChange}
       />
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      <main className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Inventory manifest header */}
-        <div className="mb-8 border-2 border-navy p-4 sm:p-5">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div className="mb-6 sm:mb-8 border-2 border-navy p-3 sm:p-5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-2">
             <div>
-              <p className="font-mono text-[11px] tracking-[0.25em] text-navy font-semibold">
+              <p className="font-mono text-[10px] sm:text-[11px] tracking-[0.2em] sm:tracking-[0.25em] text-navy font-semibold">
                 INVENTORY MANIFEST
               </p>
-              <p className="font-mono text-[9px] tracking-[0.15em] text-graphite mt-1">
+              <p className="font-mono text-[8px] sm:text-[9px] tracking-[0.12em] sm:tracking-[0.15em] text-graphite mt-0.5 sm:mt-1">
                 STATION 45&deg;N <span className="text-brass">&#9670;</span> GHOST FOREST SURF CLUB
               </p>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[9px] tracking-[0.2em] text-brass font-semibold">
-                {products.length} ITEMS CATALOGED
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <span className="font-mono text-[8px] sm:text-[9px] tracking-[0.15em] sm:tracking-[0.2em] text-brass font-semibold">
+                {products.length} ITEMS
               </span>
               {activeCollection !== 'all' && (
                 <>
                   <span className="text-brass/40 font-mono text-[7px]">&#9670;</span>
-                  <span className="font-mono text-[9px] tracking-[0.15em] text-signal-red font-semibold">
+                  <span className="font-mono text-[8px] sm:text-[9px] tracking-[0.12em] sm:tracking-[0.15em] text-signal-red font-semibold">
                     DEPT: {activeCollection.toUpperCase()}
                   </span>
                 </>
@@ -96,13 +96,13 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
             </div>
           </div>
           {/* Brass rule inside header */}
-          <div className="flex items-center gap-2 mt-3">
+          <div className="flex items-center gap-2 mt-2.5 sm:mt-3">
             <div className="flex-1 h-px bg-brass/20" />
             <span className="font-mono text-[6px] text-brass/40">&#9632;</span>
             <div className="flex-1 h-px bg-brass/20" />
           </div>
-          <p className="font-mono text-[8px] tracking-[0.2em] text-graphite/50 mt-2">
-            DATE: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase()} / CLASSIFICATION: GENERAL
+          <p className="font-mono text-[7px] sm:text-[8px] tracking-[0.15em] sm:tracking-[0.2em] text-graphite/50 mt-1.5 sm:mt-2">
+            DATE: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase()} / GENERAL
           </p>
         </div>
 
@@ -161,7 +161,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
           </div>
         ) : (
           <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-5">
             {feedItems.map((item, feedIndex) => {
               if (item.type === 'product') {
                 return (

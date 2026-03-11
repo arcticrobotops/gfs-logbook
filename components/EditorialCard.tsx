@@ -67,7 +67,7 @@ export default function EditorialCard({ imageUrl, alt, date, caption, frameNumbe
       </div>
 
       {/* Image with film frame markers */}
-      <div className="relative w-full overflow-hidden" style={{ height: '340px' }}>
+      <div className="relative w-full overflow-hidden h-[240px] sm:h-[340px]">
         <Image
           src={imageUrl}
           alt={alt}

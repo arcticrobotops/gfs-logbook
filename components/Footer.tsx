@@ -7,17 +7,17 @@ export default function Footer() {
       <div className="h-[1px] bg-navy/40" />
       <div className="h-[3px] bg-navy mt-[2px]" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* OFFICIAL MANIFEST stamp */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8">
           <div className="flex-1 h-px bg-brass/30" />
-          <p className="font-mono text-[10px] tracking-[0.35em] text-brass font-semibold">
+          <p className="font-mono text-[9px] sm:text-[10px] tracking-[0.25em] sm:tracking-[0.35em] text-brass font-semibold whitespace-nowrap">
             &#9670; OFFICIAL MANIFEST &#9670;
           </p>
           <div className="flex-1 h-px bg-brass/30" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Station manifest */}
           <div>
             <p className="font-mono text-[10px] tracking-[0.25em] text-brass mb-3">
