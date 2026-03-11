@@ -18,18 +18,25 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
 
   return (
     <nav className="sticky top-0 z-50 bg-aged-cream">
-      {/* Top thick rule */}
+      {/* Double-rule top: thick then thin */}
       <div className="h-[3px] bg-navy" />
+      <div className="h-[1px] bg-navy/40 mt-[2px]" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4 sm:py-5">
-          {/* Station name */}
+          {/* Station name + designation */}
           <div className="flex-1">
-            <h1 className="font-playfair text-lg sm:text-xl lg:text-2xl font-bold text-navy tracking-wide leading-tight">
-              COAST STATION LOG
-            </h1>
+            <div className="flex items-center gap-3">
+              <h1 className="font-playfair text-lg sm:text-xl lg:text-2xl font-bold text-navy tracking-wide leading-tight">
+                COAST STATION LOG
+              </h1>
+              <span className="hidden sm:inline font-mono text-[9px] tracking-[0.2em] text-brass">&#9670;</span>
+              <span className="hidden sm:inline font-mono text-[9px] tracking-[0.2em] text-brass font-semibold">
+                STATION 45 N
+              </span>
+            </div>
             <p className="font-mono text-[10px] sm:text-xs text-graphite tracking-[0.2em] mt-0.5">
-              GHOST FOREST SURF CLUB
+              GHOST FOREST SURF CLUB <span className="text-brass">&#9670;</span> NESKOWIN, OR
             </p>
           </div>
 
@@ -45,18 +52,20 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
             >
               ALL INVENTORY
             </button>
-            {filteredCollections.map((collection) => (
-              <button
-                key={collection.handle}
-                onClick={() => onCollectionChange(collection.handle)}
-                className={`font-mono text-[10px] lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
-                  activeCollection === collection.handle
-                    ? 'bg-navy text-aged-cream border-navy'
-                    : 'bg-transparent text-navy border-navy/30 hover:border-navy hover:bg-navy/5'
-                }`}
-              >
-                {collection.title}
-              </button>
+            {filteredCollections.map((collection, i) => (
+              <span key={collection.handle} className="flex items-center gap-1 lg:gap-2">
+                <span className="font-mono text-[8px] text-brass/50">&#9670;</span>
+                <button
+                  onClick={() => onCollectionChange(collection.handle)}
+                  className={`font-mono text-[10px] lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+                    activeCollection === collection.handle
+                      ? 'bg-navy text-aged-cream border-navy'
+                      : 'bg-transparent text-navy border-navy/30 hover:border-navy hover:bg-navy/5'
+                  }`}
+                >
+                  {collection.title}
+                </button>
+              </span>
             ))}
           </div>
 
@@ -99,8 +108,9 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
         )}
       </div>
 
-      {/* Bottom thick rule */}
-      <div className="h-[3px] bg-navy" />
+      {/* Double-rule bottom: thin then thick */}
+      <div className="h-[1px] bg-navy/40" />
+      <div className="h-[3px] bg-navy mt-[2px]" />
     </nav>
   );
 }
