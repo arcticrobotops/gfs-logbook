@@ -13,25 +13,25 @@ const EDITORIAL_CONTENT: Omit<EditorialCardProps, 'frameNumber'>[] = [
     imageUrl: 'https://images.unsplash.com/photo-1502680390548-bdbac40e7a78?w=800&q=80',
     alt: 'Morning surf session at the Oregon coast',
     date: 'MAR 2024',
-    caption: 'Dawn patrol. Station 45N. Glass conditions, light offshore winds. Crew deployed to south point. All equipment serviceable.',
+    caption: 'Dawn patrol off Proposal Rock. Fog burning copper by 0730. One longboarder on the south peak, nobody else for miles. The kind of morning that justifies every 4am alarm and cold truck.',
   },
   {
     imageUrl: 'https://images.unsplash.com/photo-1505459668311-8dfac7952bf0?w=800&q=80',
     alt: 'Coastal forest meeting the Pacific',
     date: 'FEB 2024',
-    caption: 'The ghost forest stands watch. Tide receding past the Sitka spruce. Visibility unlimited. Station perimeter secure.',
+    caption: 'The ghost forest at king tide. Sitka spruces standing in salt water, silver and stripped. This is the line we named the brand after\u2014where the forest gave ground and something new grew.',
   },
   {
     imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
     alt: 'Surf gear laid out on the beach',
     date: 'JAN 2024',
-    caption: 'Quarterly inventory check complete. All equipment inspected and cataloged. 3 boards rotated to reserve. Manifest updated.',
+    caption: 'Winter gear pull. Every piece gets a full inspection before it goes back on the rack. Seams, zippers, neoprene flex. If the stitching shows wear after one Tillamook winter, we start over.',
   },
   {
     imageUrl: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80',
     alt: 'Winter swell on the Oregon coast',
     date: 'DEC 2023',
-    caption: 'Heavy NW swell. 12ft at 16 seconds. Station personnel on standby. Conditions: advanced only. Advisory posted.',
+    caption: 'December northwest swell pushing 12ft at 16 seconds. Cape Lookout holding the biggest of it. Water temp dropped to 47. The lineup thins out when it matters most\u2014that\u2019s who we build for.',
   },
 ];
 
