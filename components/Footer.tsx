@@ -3,21 +3,34 @@ export default function Footer() {
 
   return (
     <footer className="bg-aged-cream mt-12">
-      {/* Thick top rule */}
-      <div className="h-[3px] bg-navy" />
+      {/* Double-rule top: thin then thick */}
+      <div className="h-[1px] bg-navy/40" />
+      <div className="h-[3px] bg-navy mt-[2px]" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        {/* OFFICIAL MANIFEST stamp */}
+        <div className="flex items-center gap-3 mb-8">
+          <div className="flex-1 h-px bg-brass/30" />
+          <p className="font-mono text-[10px] tracking-[0.35em] text-brass font-semibold">
+            &#9670; OFFICIAL MANIFEST &#9670;
+          </p>
+          <div className="flex-1 h-px bg-brass/30" />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Station manifest */}
           <div>
             <p className="font-mono text-[10px] tracking-[0.25em] text-brass mb-3">
               STATION MANIFEST
             </p>
-            <p className="font-mono text-[11px] tracking-[0.12em] text-navy leading-relaxed">
+            <p className="font-mono text-[11px] tracking-[0.12em] text-navy leading-relaxed font-semibold">
               GHOST FOREST SURF CLUB
             </p>
             <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-1">
-              NESKOWIN, OR
+              NESKOWIN, OR 97149
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-0.5">
+              COLDWATER SURF GOODS
             </p>
           </div>
 
@@ -27,10 +40,29 @@ export default function Footer() {
               COORDINATES
             </p>
             <p className="font-mono text-[10px] tracking-[0.12em] text-graphite leading-relaxed">
-              45.10°N, 123.98°W
+              LAT: 45.10&deg;N
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-0.5">
+              LON: 123.98&deg;W
             </p>
             <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-1">
               PACIFIC NORTHWEST SECTOR
+            </p>
+          </div>
+
+          {/* Transmission */}
+          <div>
+            <p className="font-mono text-[10px] tracking-[0.25em] text-brass mb-3">
+              TRANSMISSION
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.12em] text-graphite leading-relaxed">
+              FREQ: 156.800 MHZ CH-16
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-0.5">
+              CALL SIGN: WXJ-4519
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-0.5">
+              STATUS: OPERATIONAL
             </p>
           </div>
 
@@ -42,24 +74,36 @@ export default function Footer() {
             <p className="font-mono text-[10px] tracking-[0.12em] text-graphite leading-relaxed">
               EST. 2024
             </p>
-            <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-1">
-              COLDWATER SURF GOODS
+            <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-0.5">
+              STATION CLASS: SURF
+            </p>
+            <p className="font-mono text-[10px] tracking-[0.12em] text-graphite mt-0.5">
+              DISTRICT: TILLAMOOK
             </p>
           </div>
         </div>
 
+        {/* Brass rule */}
+        <div className="flex items-center gap-2 mt-10 mb-4">
+          <div className="flex-1 h-px bg-brass/20" />
+          <span className="font-mono text-[6px] text-brass/40">&#9632;</span>
+          <div className="flex-1 h-px bg-brass/20" />
+        </div>
+
         {/* Bottom bar */}
-        <div className="mt-10 pt-4 border-t border-navy/20">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-            <p className="font-mono text-[9px] tracking-[0.15em] text-graphite">
-              COAST STATION LOG — GHOST FOREST SURF CLUB — {year}
-            </p>
-            <p className="font-mono text-[9px] tracking-[0.15em] text-graphite">
-              ALL INVENTORY SUBJECT TO AVAILABILITY
-            </p>
-          </div>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
+          <p className="font-mono text-[9px] tracking-[0.15em] text-graphite">
+            COAST STATION LOG <span className="text-brass/50">&#9670;</span> GHOST FOREST SURF CLUB <span className="text-brass/50">&#9670;</span> {year}
+          </p>
+          <p className="font-mono text-[9px] tracking-[0.15em] text-graphite">
+            ALL INVENTORY SUBJECT TO AVAILABILITY
+          </p>
         </div>
       </div>
+
+      {/* Double-rule bottom */}
+      <div className="h-[3px] bg-navy" />
+      <div className="h-[1px] bg-navy/40 mt-[2px]" />
     </footer>
   );
 }
