@@ -29,7 +29,7 @@ body::before {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.04;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
@@ -40,10 +40,20 @@ body::before {
   font-family: 'Playfair Display', serif;
 }
 
+/* Sharp corners everywhere - no border radius */
+* {
+  border-radius: 0 !important;
+}
+
 /* Selection color */
 ::selection {
   background-color: #1A2744;
   color: #F0E8D0;
+}
+
+/* Signal Red link hover */
+a:hover {
+  color: #C0392B;
 }
 
 /* Scrollbar styling */
@@ -57,5 +67,92 @@ body::before {
 
 ::-webkit-scrollbar-thumb {
   background: #1A2744;
-  border-radius: 0;
+}
+
+/* === UTILITY CLASSES === */
+
+/* Ledger horizontal rule - thin brass line with diamond ornament */
+.ledger-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ledger-rule::before,
+.ledger-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #B8860B;
+  opacity: 0.3;
+}
+
+.ledger-rule::before {
+  content: '';
+}
+
+/* Double rule - thick top, thin bottom */
+.double-rule-top {
+  border-top: 3px solid #1A2744;
+  position: relative;
+}
+
+.double-rule-top::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(26, 39, 68, 0.4);
+}
+
+/* Stamp treatment - bordered uppercase mono text */
+.stamp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  border: 1.5px solid currentColor;
+  padding: 2px 8px;
+  display: inline-block;
+}
+
+.stamp-red {
+  color: #C0392B;
+  border-color: #C0392B;
+}
+
+.stamp-brass {
+  color: #B8860B;
+  border-color: #B8860B;
+}
+
+.stamp-navy {
+  color: #1A2744;
+  border-color: #1A2744;
+}
+
+/* Typewriter text animation */
+@keyframes typewriter-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typewriter-cursor::after {
+  content: '\2588';
+  animation: typewriter-blink 1s step-end infinite;
+  margin-left: 2px;
+  font-size: 0.8em;
+}
+
+/* Diamond separator inline */
+.diamond-sep {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7px;
+  color: #B8860B;
+}
+
+.diamond-sep::before {
+  content: '\25C6';
 }
