@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { ShopifyProduct, ShopifyCollection } from '@/types/shopify';
 import Navbar from './Navbar';
 import ProductCard from './ProductCard';
@@ -20,6 +20,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
   const [error, setError] = useState(false);
   const [dateLabel, setDateLabel] = useState('');
   const [dateStamp, setDateStamp] = useState('');
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setDateLabel(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short' }).toUpperCase());
@@ -30,6 +31,11 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
     setActiveCollection(handle);
     setLoading(true);
     setError(false);
+
+    // On mobile, scroll to product grid so results are visible
+    if (window.innerWidth < 1024) {
+      gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     try {
       const params = handle !== 'all' ? `?collection=${handle}` : '';
@@ -103,7 +109,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
         </div>
 
         {/* Inventory manifest header */}
-        <div className="mb-6 sm:mb-8 border-2 border-navy p-3 sm:p-5">
+        <div ref={gridRef} className="mb-6 sm:mb-8 border-2 border-navy p-3 sm:p-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-2">
             <div>
               <p className="font-mono text-xs sm:text-xs tracking-[0.2em] sm:tracking-[0.25em] text-navy font-semibold">
