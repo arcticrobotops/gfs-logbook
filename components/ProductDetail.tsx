@@ -106,8 +106,8 @@ export default function ProductDetail({
       </p>
 
       {/* Sticky mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-aged-cream border-t-[2.5px] border-navy px-4 py-3 flex items-center gap-3 safe-area-bottom">
-        <div className="flex-1 min-w-0">
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-aged-cream border-t-[2.5px] border-navy px-4 py-4 flex items-center gap-3 safe-area-bottom">
+        <div className="flex-1 min-w-[180px]">
           <p className="font-mono text-xs tracking-wider text-graphite/60 uppercase truncate">
             {isAvailable ? 'Ready to ship' : 'Unavailable'}
           </p>

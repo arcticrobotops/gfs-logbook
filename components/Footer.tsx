@@ -23,13 +23,13 @@ export default function Footer() {
             <p className="font-mono text-xs tracking-[0.25em] text-brass mb-3">
               STATION MANIFEST
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-navy leading-relaxed font-semibold">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-navy leading-relaxed font-semibold">
               GHOST FOREST SURF CLUB
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite mt-1">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite mt-1">
               NESKOWIN, OR 97149
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite mt-0.5">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite mt-0.5">
               COLDWATER SURF GOODS
             </p>
           </div>
@@ -39,13 +39,13 @@ export default function Footer() {
             <p className="font-mono text-xs tracking-[0.25em] text-brass mb-3">
               COORDINATES
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite leading-relaxed">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite leading-relaxed">
               LAT: 45.10&deg;N
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite mt-0.5">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite mt-0.5">
               LON: 123.98&deg;W
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite mt-1">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite mt-1">
               PACIFIC NORTHWEST SECTOR
             </p>
           </div>
@@ -55,13 +55,13 @@ export default function Footer() {
             <p className="font-mono text-xs tracking-[0.25em] text-brass mb-3">
               TRANSMISSION
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite leading-relaxed">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite leading-relaxed">
               FREQ: 156.800 MHZ CH-16
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite mt-0.5">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite mt-0.5">
               CALL SIGN: WXJ-4519
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite mt-0.5">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite mt-0.5">
               STATUS: OPERATIONAL
             </p>
           </div>
@@ -71,13 +71,13 @@ export default function Footer() {
             <p className="font-mono text-xs tracking-[0.25em] text-brass mb-3">
               STATION INFO
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite leading-relaxed">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite leading-relaxed">
               EST. 2024
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite mt-0.5">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite mt-0.5">
               STATION CLASS: SURF
             </p>
-            <p className="font-mono text-xs tracking-[0.12em] text-graphite mt-0.5">
+            <p className="font-mono text-[13px] tracking-[0.12em] text-graphite mt-0.5">
               DISTRICT: TILLAMOOK
             </p>
           </div>
@@ -92,10 +92,10 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-          <p className="font-mono text-xs tracking-[0.15em] text-graphite">
+          <p className="font-mono text-[13px] tracking-[0.15em] text-graphite">
             COAST STATION LOG <span className="text-brass/50">&#9670;</span> GHOST FOREST SURF CLUB <span className="text-brass/50">&#9670;</span> {year}
           </p>
-          <p className="font-mono text-xs tracking-[0.15em] text-graphite">
+          <p className="font-mono text-[13px] tracking-[0.15em] text-graphite">
             ALL INVENTORY SUBJECT TO AVAILABILITY
           </p>
         </div>

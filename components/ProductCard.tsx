@@ -52,7 +52,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       <div className="h-[1.5px] bg-navy/20" />
 
       {/* Product info */}
-      <div className="px-2.5 sm:px-3 pt-2.5 sm:pt-3 pb-3 sm:pb-4">
+      <div className="px-3 sm:px-3 pt-3 sm:pt-3 pb-3 sm:pb-4">
         {/* Department / Collection */}
         {collection && (
           <p className="font-mono text-xs sm:text-xs tracking-[0.2em] sm:tracking-[0.25em] text-graphite mb-1.5 sm:mb-2 truncate">
@@ -61,7 +61,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         )}
 
         {/* Product title */}
-        <h3 className="font-sans text-[12px] sm:text-[13px] font-bold tracking-[0.06em] sm:tracking-[0.08em] text-navy uppercase leading-snug mb-2 sm:mb-3 line-clamp-2">
+        <h3 className="font-sans text-[13px] sm:text-[13px] font-bold tracking-[0.06em] sm:tracking-[0.08em] text-navy uppercase leading-snug mb-2 sm:mb-3 line-clamp-2">
           {product.title}
         </h3>
 

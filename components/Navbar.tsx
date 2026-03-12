@@ -35,7 +35,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
                 STATION 45 N
               </span>
             </div>
-            <p className="font-mono text-xs sm:text-xs text-graphite tracking-[0.2em] mt-0.5">
+            <p className="font-mono text-[13px] sm:text-xs text-graphite tracking-[0.12em] sm:tracking-[0.2em] mt-0.5">
               GHOST FOREST SURF CLUB <span className="text-brass">&#9670;</span> NESKOWIN, OR
             </p>
           </div>
