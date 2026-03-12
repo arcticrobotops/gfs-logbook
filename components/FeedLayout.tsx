@@ -224,14 +224,37 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
               </div>
             </div>
           ) : products.length === 0 ? (
-            <div className="border-2 border-navy/20 p-8 text-center">
-              <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-brass mb-2">&#9670;</p>
-              <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-graphite">
+            <div
+              style={{
+                border: '2px solid rgba(26, 39, 68, 0.2)',
+                padding: '32px',
+                textAlign: 'center',
+              }}
+            >
+              <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.75rem', letterSpacing: '0.25em', color: '#7A5A0B', marginBottom: '8px' }}>&#9670;</p>
+              <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.75rem', letterSpacing: '0.2em', color: '#3C3C3C' }}>
                 NO ITEMS IN THIS DEPARTMENT
               </p>
-              <p className="font-mono text-xs tracking-[0.08em] sm:tracking-[0.15em] text-graphite/50 mt-1">
+              <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.75rem', letterSpacing: '0.15em', color: '#3C3C3C', opacity: 0.7, marginTop: '4px' }}>
                 INVENTORY RECORDS EMPTY
               </p>
+              <button
+                onClick={() => window.location.reload()}
+                style={{
+                  fontFamily: '"IBM Plex Mono", monospace',
+                  fontSize: '0.625rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.2em',
+                  padding: '10px 20px',
+                  border: '1px solid #1A2744',
+                  backgroundColor: 'transparent',
+                  color: '#1A2744',
+                  cursor: 'pointer',
+                  marginTop: '20px',
+                }}
+              >
+                Refresh
+              </button>
             </div>
           ) : null}
         </div>
