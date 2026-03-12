@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { getProductByHandle, getProducts } from '@/lib/shopify';
 import ProductDetail from '@/components/ProductDetail';
+import ProductImageGallery from '@/components/ProductImageGallery';
 import PDPSkeleton from '@/components/PDPSkeleton';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
@@ -59,7 +60,6 @@ export default async function ProductPage({
   }
 
   const images = product.images.edges.map((e) => e.node);
-  const primaryImage = images[0];
   const price = parseFloat(product.priceRange.minVariantPrice.amount);
   const collection = product.collections.edges[0]?.node;
 
@@ -160,53 +160,7 @@ export default async function ProductPage({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               {/* Image section */}
               <div>
-                {primaryImage && (
-                  <div className="border-[2.5px] border-navy">
-                    <div className="px-3 py-2 flex items-center justify-between border-b-[1.5px] border-navy/20">
-                      <span className="font-mono text-xs tracking-[0.2em] text-graphite">
-                        PHOTOGRAPH &mdash; ITEM 001
-                      </span>
-                      <span className="diamond-sep" />
-                    </div>
-                    <div className="relative aspect-[3/4] w-full">
-                      <Image
-                        src={primaryImage.url}
-                        alt={primaryImage.altText || product.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        priority
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {/* Secondary images */}
-                {images.length > 1 && (
-                  <div className="grid grid-cols-3 gap-3 mt-3">
-                    {images.slice(1, 4).map((img, i) => (
-                      <div
-                        key={i}
-                        className="border-[1.5px] border-navy/30"
-                      >
-                        <div className="px-2 py-1 border-b border-navy/10">
-                          <span className="font-mono text-xs tracking-[0.15em] text-graphite">
-                            PHOTO {String(i + 2).padStart(3, '0')}
-                          </span>
-                        </div>
-                        <div className="relative aspect-square w-full">
-                          <Image
-                            src={img.url}
-                            alt={img.altText || `${product.title} photo ${i + 2}`}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 1024px) 33vw, 16vw"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <ProductImageGallery images={images} title={product.title} />
               </div>
 
               {/* Item data */}
