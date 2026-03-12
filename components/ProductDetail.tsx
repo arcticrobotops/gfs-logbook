@@ -92,7 +92,7 @@ export default function ProductDetail({
         href={shopifyUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className={`block w-full font-mono text-xs tracking-[0.3em] text-center py-4 border-[2.5px] transition-colors duration-200 ${
+        className={`block w-full font-mono text-xs tracking-[0.15em] sm:tracking-[0.3em] text-center py-4 border-[2.5px] transition-colors duration-200 ${
           isAvailable
             ? 'bg-navy text-aged-cream border-navy hover:bg-signal-red hover:border-signal-red'
             : 'bg-navy/20 text-navy/40 border-navy/20 cursor-not-allowed pointer-events-none'
@@ -107,8 +107,8 @@ export default function ProductDetail({
 
       {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-aged-cream border-t-[2.5px] border-navy px-4 py-4 flex items-center gap-3 safe-area-bottom">
-        <div className="flex-1 min-w-[180px]">
-          <p className="font-mono text-xs tracking-wider text-graphite/60 uppercase truncate">
+        <div className="flex-1 max-w-[180px]">
+          <p className="font-mono text-[13px] tracking-wider text-graphite/60 uppercase truncate">
             {isAvailable ? 'Ready to ship' : 'Unavailable'}
           </p>
           <p className="font-mono text-sm tracking-wider text-signal-red font-bold">

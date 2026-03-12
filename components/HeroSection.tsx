@@ -15,7 +15,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-navy/40 to-navy/15" />
 
         <div className="absolute inset-0 flex flex-col items-center justify-end pb-10 sm:pb-14 md:pb-16 px-4 text-center">
-          <p className="font-mono text-xs tracking-[0.4em] text-brass uppercase mb-4">
+          <p className="font-mono text-xs tracking-[0.2em] sm:tracking-[0.4em] text-brass uppercase mb-4">
             Station 45&deg;06&prime;N &mdash; Neskowin, Oregon
           </p>
           <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-aged-cream tracking-wide leading-tight max-w-2xl">
