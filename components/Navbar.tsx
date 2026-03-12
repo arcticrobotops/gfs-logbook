@@ -72,7 +72,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden font-mono text-xs tracking-[0.15em] text-navy border border-navy px-3 py-1.5"
+            className="md:hidden font-mono text-xs tracking-[0.15em] text-navy border border-navy px-3 py-1.5 min-h-[44px]"
           >
             {mobileMenuOpen ? 'CLOSE' : 'DEPT.'}
           </button>
@@ -83,7 +83,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           <div className="md:hidden pb-4 flex flex-wrap gap-2">
             <button
               onClick={() => { onCollectionChange('all'); setMobileMenuOpen(false); }}
-              className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+              className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] ${
                 activeCollection === 'all'
                   ? 'bg-navy text-aged-cream border-navy'
                   : 'bg-transparent text-navy border-navy/30'
@@ -95,7 +95,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
               <button
                 key={collection.handle}
                 onClick={() => { onCollectionChange(collection.handle); setMobileMenuOpen(false); }}
-                className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+                className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] ${
                   activeCollection === collection.handle
                     ? 'bg-navy text-aged-cream border-navy'
                     : 'bg-transparent text-navy border-navy/30'

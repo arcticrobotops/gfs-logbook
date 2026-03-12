@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, IBM_Plex_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -23,6 +23,11 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: "Coast Station Log — Ghost Forest Surf Club",
   description: "Maritime inventory of coldwater surf goods. Station 45°N. Neskowin, Oregon.",
@@ -40,6 +45,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://cdn.shopify.com" />
+      </head>
       <body
         className={`${playfair.variable} ${ibmPlexMono.variable} ${dmSans.variable} antialiased`}
       >

@@ -156,3 +156,7 @@ a:hover {
 .diamond-sep::before {
   content: '\25C6';
 }
+
+.safe-area-bottom {
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
