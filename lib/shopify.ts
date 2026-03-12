@@ -1,7 +1,15 @@
 import { ShopifyProduct, ShopifyCollection, ShopifyProductDetail } from '@/types/shopify';
 
-const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!;
-const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
+function getEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
+}
+
+const domain = getEnvVar('SHOPIFY_STORE_DOMAIN');
+const storefrontAccessToken = getEnvVar('SHOPIFY_STOREFRONT_ACCESS_TOKEN');
 
 const endpoint = `https://${domain}/api/2024-10/graphql.json`;
 

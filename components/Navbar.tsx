@@ -29,7 +29,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
   }, [mobileMenuOpen]);
 
   return (
-    <nav className="sticky top-0 z-50 bg-aged-cream">
+    <nav className="sticky top-0 z-50 bg-aged-cream" aria-label="Main navigation">
       {/* Double-rule top: thick then thin */}
       <div className="h-[3px] bg-navy" />
       <div className="h-[1px] bg-navy/40 mt-[2px]" />
@@ -56,6 +56,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           <div className="hidden md:flex items-center gap-1 lg:gap-2">
             <button
               onClick={() => onCollectionChange('all')}
+              aria-current={activeCollection === 'all' ? 'true' : undefined}
               className={`font-mono text-xs lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                 activeCollection === 'all'
                   ? 'bg-navy text-aged-cream border-navy'
@@ -69,6 +70,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
                 <span className="font-mono text-xs text-brass/50">&#9670;</span>
                 <button
                   onClick={() => onCollectionChange(collection.handle)}
+                  aria-current={activeCollection === collection.handle ? 'true' : undefined}
                   className={`font-mono text-xs lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                     activeCollection === collection.handle
                       ? 'bg-navy text-aged-cream border-navy'
@@ -102,6 +104,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           <div className="pb-4 flex flex-wrap gap-2">
             <button
               onClick={() => { onCollectionChange('all'); setMobileMenuOpen(false); }}
+              aria-current={activeCollection === 'all' ? 'true' : undefined}
               className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                 activeCollection === 'all'
                   ? 'bg-navy text-aged-cream border-navy'
@@ -114,6 +117,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
               <button
                 key={collection.handle}
                 onClick={() => { onCollectionChange(collection.handle); setMobileMenuOpen(false); }}
+                aria-current={activeCollection === collection.handle ? 'true' : undefined}
                 className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                   activeCollection === collection.handle
                     ? 'bg-navy text-aged-cream border-navy'

@@ -1,7 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 
 const PASSWORD = process.env.SITE_PASSWORD;
+const COOKIE_SECRET = process.env.COOKIE_SECRET || 'fallback-secret-change-me';
 const COOKIE_NAME = 'site-auth';
+
+/** Validate that `next` is a safe relative path (no open redirect). */
+function sanitizeNext(next: string): string {
+  if (!next || !next.startsWith('/') || next.startsWith('//') || next.includes('://')) {
+    return '/';
+  }
+  return next;
+}
+
+/** Create an HMAC-signed token for the auth cookie. */
+function signToken(value: string): string {
+  const hmac = crypto.createHmac('sha256', COOKIE_SECRET);
+  hmac.update(value);
+  return `${value}.${hmac.digest('hex')}`;
+}
+
+/** Verify an HMAC-signed token. Returns true if valid. */
+export function verifyToken(token: string): boolean {
+  const lastDot = token.lastIndexOf('.');
+  if (lastDot === -1) return false;
+  const value = token.slice(0, lastDot);
+  const expected = signToken(value);
+  // Use timing-safe comparison for the full signed token
+  if (expected.length !== token.length) return false;
+  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(token));
+}
 
 function escapeHtml(str: string): string {
   return str
@@ -13,7 +41,8 @@ function escapeHtml(str: string): string {
 }
 
 export async function GET(request: NextRequest) {
-  const next = request.nextUrl.searchParams.get('next') || '/';
+  const rawNext = request.nextUrl.searchParams.get('next') || '/';
+  const next = sanitizeNext(rawNext);
   return new NextResponse(loginHTML(next), {
     headers: { 'Content-Type': 'text/html' },
   });
@@ -23,11 +52,20 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const password = formData.get('password') as string;
-    const next = formData.get('next') as string || '/';
+    const rawNext = formData.get('next') as string || '/';
+    const next = sanitizeNext(rawNext);
 
-    if (PASSWORD && password === PASSWORD) {
+    // Timing-safe password comparison
+    const isValid =
+      PASSWORD &&
+      password &&
+      PASSWORD.length === password.length &&
+      crypto.timingSafeEqual(Buffer.from(PASSWORD), Buffer.from(password));
+
+    if (isValid) {
       const response = NextResponse.redirect(new URL(next, request.url));
-      response.cookies.set(COOKIE_NAME, 'authenticated', {
+      const token = signToken('authenticated');
+      response.cookies.set(COOKIE_NAME, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
@@ -119,16 +157,28 @@ function loginHTML(next: string, error?: string) {
       font-size: 13px;
       margin-bottom: 0.5rem;
     }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <p class="brand">Ghost Forest Surf Club</p>
     <h1>Enter Password</h1>
-    ${safeError ? `<p class="error">${safeError}</p>` : ''}
+    ${safeError ? `<p class="error" aria-live="polite">${safeError}</p>` : ''}
     <form method="POST" action="/api/auth">
       <input type="hidden" name="next" value="${safeNext}" />
-      <input type="password" name="password" placeholder="Password" autofocus required />
+      <label for="password" class="sr-only">Password</label>
+      <input type="password" id="password" name="password" placeholder="Password" autofocus required />
       <button type="submit">Enter</button>
     </form>
   </div>

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { BLUR_DATA_URL } from '@/lib/constants';
 
 export default function HeroSection() {
   return (
@@ -11,6 +12,8 @@ export default function HeroSection() {
           sizes="100vw"
           className="object-cover"
           priority
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-navy/40 to-navy/15" />
 
@@ -18,15 +21,15 @@ export default function HeroSection() {
           <p className="font-mono text-xs tracking-[0.2em] sm:tracking-[0.4em] text-brass uppercase mb-4">
             Station 45&deg;06&prime;N &mdash; Neskowin, Oregon
           </p>
-          <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-aged-cream tracking-wide leading-tight max-w-2xl">
+          <h1 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-aged-cream tracking-wide leading-tight max-w-2xl">
             Coast Station Log
-          </h2>
+          </h1>
           <p className="mt-4 font-sans text-sm sm:text-base text-aged-cream/70 max-w-lg leading-relaxed">
             Every piece in this manifest was tested in 48-degree water off Proposal Rock before it earned a place in the lineup.
           </p>
           <div className="mt-6">
             <a
-              href="#manifest"
+              href="#main-content"
               className="inline-block font-mono text-xs tracking-[0.25em] uppercase px-8 py-3 border-[2px] border-aged-cream/40 text-aged-cream hover:bg-aged-cream/10 transition-colors duration-200"
             >
               View Manifest

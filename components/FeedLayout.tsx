@@ -33,13 +33,14 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
     setError(false);
 
     // On mobile, scroll to product grid so results are visible
-    if (window.innerWidth < 1024) {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     try {
       const params = handle !== 'all' ? `?collection=${handle}` : '';
       const res = await fetch(`/api/products${params}`);
+      if (!res.ok) throw new Error(`Failed to fetch products: ${res.status}`);
       const data = await res.json();
       setProducts(data.products || []);
     } catch (err) {
@@ -88,7 +89,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
         />
       </ErrorBoundary>
 
-      <main id="manifest" className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main id="main-content" className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Editorial intro — warmth before the ledger */}
         <div className="mb-8 sm:mb-12 px-1 sm:px-0">
           <div className="max-w-xl">

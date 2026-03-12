@@ -62,7 +62,7 @@ export default function ProductDetail({
                 disabled={!v.node.availableForSale}
                 aria-pressed={v.node.id === selectedVariant}
                 aria-label={`${v.node.title} - ${v.node.availableForSale ? 'available' : 'unavailable'}`}
-                className={`font-mono text-xs tracking-[0.15em] border px-3 py-1.5 transition-colors duration-150 ${
+                className={`font-mono text-xs tracking-[0.15em] border px-3 py-1.5 min-h-[44px] min-w-[44px] transition-colors duration-150 ${
                   v.node.id === selectedVariant
                     ? 'text-signal-red border-signal-red font-semibold bg-signal-red/5'
                     : v.node.availableForSale

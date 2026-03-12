@@ -32,10 +32,21 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ghostforestsurfclub.com"),
   title: "Coast Station Log — Ghost Forest Surf Club",
   description: "Maritime inventory of coldwater surf goods. Station 45°N. Neskowin, Oregon.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Coast Station Log — Ghost Forest Surf Club",
     description: "Maritime inventory of coldwater surf goods. Station 45°N. Neskowin, Oregon.",
     type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Coast Station Log — Ghost Forest Surf Club",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

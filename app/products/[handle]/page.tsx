@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { getProductByHandle, getProducts } from '@/lib/shopify';
-import { formatPrice } from '@/lib/utils';
+import { formatPrice, sanitizeHtml } from '@/lib/utils';
 import ProductDetail from '@/components/ProductDetail';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import PDPSkeleton from '@/components/PDPSkeleton';
@@ -40,6 +40,9 @@ export async function generateMetadata({
     description: product.description
       ? product.description.slice(0, 160)
       : `${product.title} - Issued at $${formattedPrice}. Ghost Forest Surf Club.`,
+    alternates: {
+      canonical: `/products/${handle}`,
+    },
     openGraph: {
       title: product.title,
       description: product.description?.slice(0, 160) || '',
@@ -124,13 +127,21 @@ export default async function ProductPage({
         }),
   };
 
+  // Sanitize descriptionHtml to strip scripts and event handlers
+  const safeDescriptionHtml = product.descriptionHtml
+    ? sanitizeHtml(product.descriptionHtml)
+    : '';
+
+  // Escape < in JSON-LD to prevent script injection
+  const jsonLdString = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
+
   return (
     <Suspense fallback={<PDPSkeleton />}>
       <ErrorBoundary>
-        <main className="min-h-screen bg-aged-cream text-navy pb-20 md:pb-0">
+        <main id="main-content" className="min-h-screen bg-aged-cream text-navy pb-20 md:pb-0">
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            dangerouslySetInnerHTML={{ __html: jsonLdString }}
           />
           {/* Back navigation */}
           <div className="max-w-5xl mx-auto px-4 pt-6 pb-2">
@@ -234,7 +245,7 @@ export default async function ProductPage({
                 )}
 
                 {/* Station notes (description) */}
-                {product.descriptionHtml && (
+                {safeDescriptionHtml && (
                   <div className="mb-8">
                     <div className="flex items-center gap-3 mb-3">
                       <span className="font-mono text-xs tracking-[0.25em] text-navy font-semibold">
@@ -248,7 +259,7 @@ export default async function ProductPage({
                         prose-strong:text-navy prose-strong:font-semibold
                         prose-a:text-brass prose-a:underline prose-a:underline-offset-2
                         prose-ul:text-graphite prose-ol:text-graphite"
-                      dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+                      dangerouslySetInnerHTML={{ __html: safeDescriptionHtml }}
                     />
                   </div>
                 )}

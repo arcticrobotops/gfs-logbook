@@ -2,8 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ShopifyProduct } from '@/types/shopify';
 import { formatPrice } from '@/lib/utils';
-
-const BLUR_DATA_URL = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+PHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPScjRjJFREU1Jy8+PC9zdmc+';
+import { BLUR_DATA_URL } from '@/lib/constants';
 
 interface ProductCardProps {
   product: ShopifyProduct;
