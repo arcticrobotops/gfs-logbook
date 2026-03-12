@@ -187,6 +187,12 @@ function loginHTML(next: string, error?: string) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ghost Forest Surf Club</title>
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="description" content="Maritime inventory of coldwater surf goods. Station 45°N. Neskowin, Oregon." />
+  <meta property="og:title" content="Ghost Forest Surf Club" />
+  <meta property="og:description" content="Maritime inventory of coldwater surf goods. Station 45°N. Neskowin, Oregon." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -266,12 +272,26 @@ function loginHTML(next: string, error?: string) {
     <p class="brand">Ghost Forest Surf Club</p>
     <h1>Enter Password</h1>
     ${safeError ? `<p class="error" aria-live="polite">${safeError}</p>` : ''}
-    <form method="POST" action="/api/auth">
+    <form method="POST" action="/api/auth" id="auth-form">
       <input type="hidden" name="next" value="${safeNext}" />
       <label for="password" class="sr-only">Password</label>
       <input type="password" id="password" name="password" placeholder="Password" autofocus required />
+      <p class="error" id="client-error" aria-live="polite" hidden></p>
       <button type="submit">Enter</button>
     </form>
+    <script>
+      document.getElementById('auth-form').addEventListener('submit', function(e) {
+        var pw = document.getElementById('password').value;
+        var errEl = document.getElementById('client-error');
+        if (!pw || pw.trim() === '') {
+          e.preventDefault();
+          errEl.textContent = 'Please enter a password';
+          errEl.hidden = false;
+        } else {
+          errEl.hidden = true;
+        }
+      });
+    </script>
   </div>
 </body>
 </html>`;
