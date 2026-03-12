@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+const BLUR_DATA_URL = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+PHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPScjRjJFREU1Jy8+PC9zdmc+';
+
 interface EditorialCardProps {
   imageUrl: string;
   alt: string;
@@ -73,7 +75,9 @@ export default function EditorialCard({ imageUrl, alt, date, caption, frameNumbe
           alt={alt}
           fill
           className="object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 66vw"
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
         />
         {/* Film frame corner marks */}
         <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-aged-cream/60" />

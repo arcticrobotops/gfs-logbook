@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { formatPrice } from '@/lib/utils';
 
 interface Variant {
   node: {
@@ -35,7 +36,7 @@ export default function ProductDetail({
   const currentPrice = selected
     ? parseFloat(selected.node.price.amount)
     : initialPrice;
-  const formattedPrice = currentPrice % 1 === 0 ? currentPrice.toFixed(0) : currentPrice.toFixed(2);
+  const formattedPrice = formatPrice(currentPrice);
   const isAvailable = selected?.node.availableForSale ?? false;
 
   return (
@@ -49,7 +50,7 @@ export default function ProductDetail({
             </span>
             <div className="flex-1 h-px bg-navy/10" />
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Variant options">
             {variants.map((v) => (
               <button
                 key={v.node.id}
@@ -59,6 +60,8 @@ export default function ProductDetail({
                   }
                 }}
                 disabled={!v.node.availableForSale}
+                aria-pressed={v.node.id === selectedVariant}
+                aria-label={`${v.node.title} - ${v.node.availableForSale ? 'available' : 'unavailable'}`}
                 className={`font-mono text-xs tracking-[0.15em] border px-3 py-1.5 transition-colors duration-150 ${
                   v.node.id === selectedVariant
                     ? 'text-signal-red border-signal-red font-semibold bg-signal-red/5'

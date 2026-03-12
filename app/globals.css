@@ -12,6 +12,10 @@
   --font-sans: 'DM Sans', sans-serif;
 }
 
+html {
+  scroll-padding-top: 80px;
+}
+
 /* Paper grain texture overlay */
 body {
   background-color: #F0E8D0;
@@ -45,7 +49,7 @@ body {
 
 /* Sharp corners everywhere - no border radius */
 * {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 /* Selection color */
@@ -54,8 +58,8 @@ body {
   color: #F0E8D0;
 }
 
-/* Signal Red link hover */
-a:hover {
+/* Signal Red link hover — only unstyled links */
+a:hover:not([class]) {
   color: #C0392B;
 }
 

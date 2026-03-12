@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ShopifyProduct } from '@/types/shopify';
+import { formatPrice } from '@/lib/utils';
 
 const BLUR_DATA_URL = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+PHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPScjRjJFREU1Jy8+PC9zdmc+';
 
@@ -12,7 +13,7 @@ interface ProductCardProps {
 export default function ProductCard({ product, index }: ProductCardProps) {
   const image = product.images.edges[0]?.node;
   const price = parseFloat(product.priceRange.minVariantPrice.amount);
-  const formattedPrice = price % 1 === 0 ? price.toFixed(0) : price.toFixed(2);
+  const formattedPrice = formatPrice(price);
   const collection = product.collections.edges[0]?.node;
   const itemNumber = String(index + 1).padStart(3, '0');
 
@@ -45,7 +46,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             alt={image.altText || product.title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
           />

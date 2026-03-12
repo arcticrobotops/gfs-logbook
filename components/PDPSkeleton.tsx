@@ -13,7 +13,7 @@ export default function PDPSkeleton() {
           <div className="h-px bg-navy/10" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           <div>
             <div className="border-[2.5px] border-navy/10">
               <div className="px-3 py-2 border-b border-navy/10">

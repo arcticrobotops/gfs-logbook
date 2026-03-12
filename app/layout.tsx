@@ -29,6 +29,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ghostforestsurfclub.com"),
   title: "Coast Station Log — Ghost Forest Surf Club",
   description: "Maritime inventory of coldwater surf goods. Station 45°N. Neskowin, Oregon.",
   openGraph: {
@@ -56,6 +57,12 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${ibmPlexMono.variable} ${dmSans.variable} antialiased`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-navy focus:text-aged-cream font-mono text-xs tracking-widest"
+        >
+          Skip to content
+        </a>
         {children}
       </body>
     </html>

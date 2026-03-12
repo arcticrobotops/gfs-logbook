@@ -5,8 +5,8 @@ export default function HeroSection() {
     <section className="relative w-full overflow-hidden border-b-[2.5px] border-navy">
       <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh]">
         <Image
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80"
-          alt="Misty Oregon coastline at dawn, fog rolling through ghost forest stumps"
+          src="https://images.unsplash.com/photo-1513553404607-988bf2703777?w=1920&q=80"
+          alt="Rugged Oregon coast with sea stacks and misty Pacific Northwest shoreline"
           fill
           sizes="100vw"
           className="object-cover"

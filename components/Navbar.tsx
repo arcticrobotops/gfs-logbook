@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ShopifyCollection } from '@/types/shopify';
 
 interface NavbarProps {
@@ -11,10 +11,22 @@ interface NavbarProps {
 
 export default function Navbar({ collections, activeCollection, onCollectionChange }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const filteredCollections = collections.filter(
     (c) => c.handle !== 'frontpage' && c.title.toLowerCase() !== 'home'
   );
+
+  // Manage max-height for CSS transition
+  useEffect(() => {
+    const el = menuRef.current;
+    if (!el) return;
+    if (mobileMenuOpen) {
+      el.style.maxHeight = el.scrollHeight + 'px';
+    } else {
+      el.style.maxHeight = '0px';
+    }
+  }, [mobileMenuOpen]);
 
   return (
     <nav className="sticky top-0 z-50 bg-aged-cream">
@@ -27,9 +39,9 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           {/* Station name + designation */}
           <div className="flex-1">
             <div className="flex items-center gap-3">
-              <h1 className="font-playfair text-lg sm:text-xl lg:text-2xl font-bold text-navy tracking-wide leading-tight">
+              <span className="font-playfair text-lg sm:text-xl lg:text-2xl font-bold text-navy tracking-wide leading-tight">
                 COAST STATION LOG
-              </h1>
+              </span>
               <span className="hidden sm:inline font-mono text-xs tracking-[0.2em] text-brass">&#9670;</span>
               <span className="hidden sm:inline font-mono text-xs tracking-[0.2em] text-brass font-semibold">
                 STATION 45 N
@@ -44,7 +56,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           <div className="hidden md:flex items-center gap-1 lg:gap-2">
             <button
               onClick={() => onCollectionChange('all')}
-              className={`font-mono text-xs lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+              className={`font-mono text-xs lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                 activeCollection === 'all'
                   ? 'bg-navy text-aged-cream border-navy'
                   : 'bg-transparent text-navy border-navy/30 hover:border-navy hover:bg-navy/5'
@@ -52,12 +64,12 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
             >
               ALL INVENTORY
             </button>
-            {filteredCollections.map((collection, i) => (
+            {filteredCollections.map((collection) => (
               <span key={collection.handle} className="flex items-center gap-1 lg:gap-2">
                 <span className="font-mono text-xs text-brass/50">&#9670;</span>
                 <button
                   onClick={() => onCollectionChange(collection.handle)}
-                  className={`font-mono text-xs lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors ${
+                  className={`font-mono text-xs lg:text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                     activeCollection === collection.handle
                       ? 'bg-navy text-aged-cream border-navy'
                       : 'bg-transparent text-navy border-navy/30 hover:border-navy hover:bg-navy/5'
@@ -72,18 +84,25 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden font-mono text-xs tracking-[0.15em] text-navy border border-navy px-3 py-1.5 min-h-[44px]"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            className="md:hidden font-mono text-xs tracking-[0.15em] text-navy border border-navy px-3 py-1.5 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
           >
             {mobileMenuOpen ? 'CLOSE' : 'DEPT.'}
           </button>
         </div>
 
-        {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden pb-4 flex flex-wrap gap-2">
+        {/* Mobile menu with CSS transition */}
+        <div
+          id="mobile-menu"
+          ref={menuRef}
+          className="md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out"
+          style={{ maxHeight: 0, opacity: mobileMenuOpen ? 1 : 0 }}
+        >
+          <div className="pb-4 flex flex-wrap gap-2">
             <button
               onClick={() => { onCollectionChange('all'); setMobileMenuOpen(false); }}
-              className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] ${
+              className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                 activeCollection === 'all'
                   ? 'bg-navy text-aged-cream border-navy'
                   : 'bg-transparent text-navy border-navy/30'
@@ -95,7 +114,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
               <button
                 key={collection.handle}
                 onClick={() => { onCollectionChange(collection.handle); setMobileMenuOpen(false); }}
-                className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] ${
+                className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                   activeCollection === collection.handle
                     ? 'bg-navy text-aged-cream border-navy'
                     : 'bg-transparent text-navy border-navy/30'
@@ -105,7 +124,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
               </button>
             ))}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Double-rule bottom: thin then thick */}

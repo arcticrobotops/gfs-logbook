@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { getProductByHandle, getProducts } from '@/lib/shopify';
+import { formatPrice } from '@/lib/utils';
 import ProductDetail from '@/components/ProductDetail';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import PDPSkeleton from '@/components/PDPSkeleton';
@@ -31,7 +32,7 @@ export async function generateMetadata({
   }
 
   const price = parseFloat(product.priceRange.minVariantPrice.amount);
-  const formattedPrice = price % 1 === 0 ? price.toFixed(0) : price.toFixed(2);
+  const formattedPrice = formatPrice(price);
   const image = product.images.edges[0]?.node;
 
   return {
@@ -60,7 +61,6 @@ export default async function ProductPage({
   }
 
   const images = product.images.edges.map((e) => e.node);
-  const price = parseFloat(product.priceRange.minVariantPrice.amount);
   const collection = product.collections.edges[0]?.node;
 
   // Related items
@@ -147,9 +147,9 @@ export default async function ProductPage({
             {/* ITEM RECORD header */}
             <div className="double-rule-top pt-4 mb-8">
               <div className="flex items-center justify-between mb-1">
-                <h1 className="font-mono text-xs tracking-[0.3em] text-navy font-bold">
+                <span className="font-mono text-xs tracking-[0.3em] text-navy font-bold">
                   ITEM RECORD
-                </h1>
+                </span>
                 <span className="font-mono text-xs tracking-[0.2em] text-brass">
                   GHOST FOREST SURF CLUB
                 </span>
@@ -165,9 +165,9 @@ export default async function ProductPage({
 
               {/* Item data */}
               <div>
-                <h2 className="font-sans text-xl sm:text-2xl font-bold tracking-[0.06em] text-navy uppercase leading-tight mb-4">
+                <h1 className="font-sans text-xl sm:text-2xl font-bold tracking-[0.06em] text-navy uppercase leading-tight mb-4">
                   {product.title}
-                </h2>
+                </h1>
 
                 <div className="h-px bg-navy/10 mb-6" />
 
@@ -258,7 +258,7 @@ export default async function ProductPage({
                   <ProductDetail
                     variants={product.variants.edges}
                     shopifyUrl={shopifyUrl}
-                    initialPrice={price}
+                    initialPrice={minPrice}
                     hasVariants={hasVariants}
                   />
                 </ErrorBoundary>
@@ -306,7 +306,7 @@ export default async function ProductPage({
                           {rp.title}
                         </h3>
                         <p className="font-mono text-[11px] text-brass mt-1">
-                          ${rp.price % 1 === 0 ? rp.price.toFixed(0) : rp.price.toFixed(2)}
+                          ${formatPrice(rp.price)}
                         </p>
                       </div>
                     </Link>
