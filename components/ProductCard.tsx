@@ -17,7 +17,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.handle}`}
-      className="group block border-2 border-navy bg-aged-cream transition-colors hover:border-signal-red"
+      className="group block border-2 border-navy bg-aged-cream transition-[colors,shadow] hover:border-signal-red hover:shadow-[0_4px_16px_rgba(26,39,68,0.12)]"
     >
       {/* Brass accent top edge */}
       <div className="h-[2px] bg-brass/30 group-hover:bg-brass/50 transition-colors" />
