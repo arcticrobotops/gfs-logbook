@@ -79,7 +79,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
         {/* Editorial intro — warmth before the ledger */}
         <div className="mb-8 sm:mb-12 px-1 sm:px-0">
           <div className="max-w-xl">
-            <p className="font-mono text-xs sm:text-xs tracking-[0.3em] text-brass mb-4 sm:mb-5">
+            <p className="font-mono text-xs sm:text-xs tracking-[0.15em] sm:tracking-[0.3em] text-brass mb-4 sm:mb-5">
               STATION 45&deg;06&prime;N &mdash; NESKOWIN, OREGON
             </p>
             <div className="w-8 h-px bg-brass/40 mb-5 sm:mb-6" />
@@ -89,7 +89,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
             <p className="font-sans text-[13px] sm:text-sm text-graphite/70 leading-relaxed max-w-md">
               Every piece in this manifest was tested in 48-degree water off Proposal Rock before it earned a place in the lineup. Built for fog, salt, and the long paddle north.
             </p>
-            <p className="font-mono text-xs tracking-[0.25em] text-graphite/35 mt-5 sm:mt-6 uppercase">
+            <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-graphite/35 mt-5 sm:mt-6 uppercase">
               Current inventory &middot; {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short' }).toUpperCase()}
             </p>
           </div>
@@ -133,16 +133,16 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
 
         {error ? (
           <div className="border-2 border-signal-red/30 p-8 text-center">
-            <p className="font-mono text-xs tracking-[0.25em] text-signal-red mb-2">&#9670;</p>
-            <p className="font-mono text-xs tracking-[0.2em] text-signal-red font-semibold">
+            <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-signal-red mb-2">&#9670;</p>
+            <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-signal-red font-semibold">
               TRANSMISSION ERROR
             </p>
-            <p className="font-mono text-xs tracking-[0.15em] text-graphite/60 mt-1 mb-4">
+            <p className="font-mono text-xs tracking-[0.08em] sm:tracking-[0.15em] text-graphite/60 mt-1 mb-4">
               FAILED TO RETRIEVE MANIFEST DATA
             </p>
             <button
               onClick={() => handleCollectionChange(activeCollection)}
-              className="font-mono text-xs tracking-[0.2em] text-aged-cream bg-navy border-2 border-navy px-6 py-2.5 hover:bg-signal-red hover:border-signal-red transition-colors"
+              className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-aged-cream bg-navy border-2 border-navy px-6 py-2.5 hover:bg-signal-red hover:border-signal-red transition-colors"
             >
               RETRY TRANSMISSION
             </button>
@@ -153,7 +153,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
             <div className="border-2 border-navy/20 p-6 mb-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-px flex-1 bg-navy/10" />
-                <p className="font-mono text-xs tracking-[0.3em] text-brass animate-pulse">
+                <p className="font-mono text-xs tracking-[0.15em] sm:tracking-[0.3em] text-brass animate-pulse">
                   RETRIEVING MANIFEST...
                 </p>
                 <div className="h-px flex-1 bg-navy/10" />
@@ -192,11 +192,11 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
           </div>
         ) : products.length === 0 ? (
           <div className="border-2 border-navy/20 p-8 text-center">
-            <p className="font-mono text-xs tracking-[0.25em] text-brass mb-2">&#9670;</p>
-            <p className="font-mono text-xs tracking-[0.2em] text-graphite">
+            <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-brass mb-2">&#9670;</p>
+            <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-graphite">
               NO ITEMS IN THIS DEPARTMENT
             </p>
-            <p className="font-mono text-xs tracking-[0.15em] text-graphite/50 mt-1">
+            <p className="font-mono text-xs tracking-[0.08em] sm:tracking-[0.15em] text-graphite/50 mt-1">
               INVENTORY RECORDS EMPTY
             </p>
           </div>
@@ -243,7 +243,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
                     <div className="flex items-center gap-3">
                       <div className="flex-1 h-px bg-brass/25" />
                       <span className="font-mono text-xs text-brass/50">&#9670;</span>
-                      <span className="font-mono text-xs tracking-[0.3em] text-brass/40">
+                      <span className="font-mono text-xs tracking-[0.15em] sm:tracking-[0.3em] text-brass/40">
                         CONTINUED
                       </span>
                       <span className="font-mono text-xs text-brass/50">&#9670;</span>
@@ -265,10 +265,10 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
               <div className="flex-1 h-px bg-navy/20" />
             </div>
             <div className="text-center mt-4">
-              <p className="font-mono text-xs tracking-[0.35em] text-graphite/50">
+              <p className="font-mono text-xs tracking-[0.18em] sm:tracking-[0.35em] text-graphite/50">
                 &#9670; END OF MANIFEST &#9670;
               </p>
-              <p className="font-mono text-xs tracking-[0.2em] text-graphite/30 mt-1">
+              <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-graphite/30 mt-1">
                 {products.length} ITEMS TOTAL / STATION 45&deg;N
               </p>
             </div>

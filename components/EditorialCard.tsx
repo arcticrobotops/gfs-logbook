@@ -48,26 +48,26 @@ export default function EditorialCard({ imageUrl, alt, date, caption, frameNumbe
       <div className="px-3 pt-3 pb-2 border-b border-navy/20 flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <p className="font-mono text-xs tracking-[0.2em] text-signal-red font-semibold">
+            <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-signal-red font-semibold">
               FIELD REPORT
             </p>
             <span className="font-mono text-xs text-brass">&#9670;</span>
-            <p className="font-mono text-xs tracking-[0.2em] text-navy">
+            <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-navy">
               PHOTOGRAPH
             </p>
           </div>
-          <p className="font-mono text-xs tracking-[0.15em] text-graphite mt-0.5">
+          <p className="font-mono text-xs tracking-[0.08em] sm:tracking-[0.15em] text-graphite mt-0.5">
             DATE: {date || 'MAR 2024'} / STATION: 45&deg;N
           </p>
         </div>
         {/* Film frame number */}
-        <p className="font-mono text-xs tracking-[0.2em] text-brass font-semibold">
+        <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-brass font-semibold">
           FR. {frameNum}
         </p>
       </div>
 
       {/* Image with film frame markers */}
-      <div className="relative w-full overflow-hidden h-[240px] sm:h-[340px]">
+      <div className="relative w-full overflow-hidden h-[200px] sm:h-[240px] lg:h-[340px]">
         <Image
           src={imageUrl}
           alt={alt}

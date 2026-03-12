@@ -51,7 +51,7 @@ export default function TextMoment({ variant = 'dark', heading, timestamp, body,
     >
       {/* Entry number */}
       <p
-        className={`font-mono text-xs tracking-[0.3em] font-semibold mb-2 ${
+        className={`font-mono text-xs tracking-[0.15em] sm:tracking-[0.3em] font-semibold mb-2 ${
           isDark ? 'text-brass' : 'text-brass'
         }`}
       >
@@ -67,7 +67,7 @@ export default function TextMoment({ variant = 'dark', heading, timestamp, body,
 
       {heading && (
         <p
-          className={`font-mono text-xs tracking-[0.25em] mb-1 ${
+          className={`font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] mb-1 ${
             isDark ? 'text-aged-cream/70' : 'text-signal-red'
           }`}
         >
