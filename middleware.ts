@@ -1,8 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const COOKIE_NAME = 'site-auth';
-const COOKIE_SECRET = process.env.COOKIE_SECRET || 'fallback-secret-change-me';
 
+// #2: Remove fallback secret — validated lazily to avoid build-time errors
+function getCookieSecret(): string {
+  const secret = process.env.COOKIE_SECRET;
+  if (!secret) {
+    throw new Error('COOKIE_SECRET environment variable must be set');
+  }
+  return secret;
+}
+
+// #6: Token expiration — reject tokens older than 30 days
+const TOKEN_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
+
+/**
+ * #21: This middleware uses the Web Crypto API (crypto.subtle) for HMAC signing
+ * because Edge Middleware runs in the Edge runtime where the Node.js `crypto` module
+ * is not available. The auth route (app/api/auth/route.ts) uses Node.js `crypto.createHmac`
+ * because API routes run in the Node.js runtime. Both produce identical HMAC-SHA256
+ * signatures so tokens are interoperable across runtimes.
+ */
 async function hmacSign(value: string, secret: string): Promise<string> {
   const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey(
@@ -31,8 +49,22 @@ async function verifyToken(token: string): Promise<boolean> {
   if (lastDot === -1) return false;
   const value = token.slice(0, lastDot);
   const providedSig = token.slice(lastDot + 1);
-  const expectedSig = await hmacSign(value, COOKIE_SECRET);
-  return timingSafeEqual(expectedSig, providedSig);
+  const expectedSig = await hmacSign(value, getCookieSecret());
+  if (!timingSafeEqual(expectedSig, providedSig)) return false;
+
+  // #6: Parse timestamp from token payload and reject tokens older than 30 days
+  // Token format: "authenticated:<timestamp>"
+  const parts = value.split(':');
+  if (parts.length >= 2) {
+    const timestamp = parseInt(parts[1], 10);
+    if (!isNaN(timestamp)) {
+      if (Date.now() - timestamp > TOKEN_MAX_AGE_MS) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
 export async function middleware(request: NextRequest) {

@@ -29,7 +29,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         this.props.fallback || (
-          <div className="flex flex-col items-center justify-center py-12 px-4 border-2 border-navy/20">
+          <div role="alert" className="flex flex-col items-center justify-center py-12 px-4 border-2 border-navy/20">
             <p className="font-mono text-xs tracking-[0.25em] text-brass mb-2">&#9670;</p>
             <p className="font-mono text-xs tracking-[0.2em] text-navy font-semibold mb-1">
               COMPONENT ERROR

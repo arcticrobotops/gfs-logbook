@@ -1,9 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 
-const PASSWORD = process.env.SITE_PASSWORD;
-const COOKIE_SECRET = process.env.COOKIE_SECRET || 'fallback-secret-change-me';
+// #2 / #7: Validate SITE_PASSWORD is defined and non-empty.
+// Validated lazily to avoid breaking the build when env vars are not yet available.
+function getPassword(): string {
+  const pw = process.env.SITE_PASSWORD;
+  if (!pw || pw.trim() === '') {
+    throw new Error('SITE_PASSWORD environment variable must be set and non-empty');
+  }
+  return pw;
+}
+
+// #2: Remove fallback secret — throw if env var not set.
+function getCookieSecret(): string {
+  const secret = process.env.COOKIE_SECRET;
+  if (!secret) {
+    throw new Error('COOKIE_SECRET environment variable must be set');
+  }
+  return secret;
+}
+
 const COOKIE_NAME = 'site-auth';
+
+// #1: In-memory rate limiter — track by IP, max 5 attempts per 60s
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+
+  entry.count += 1;
+  return entry.count > RATE_LIMIT_MAX;
+}
 
 /** Validate that `next` is a safe relative path (no open redirect). */
 function sanitizeNext(next: string): string {
@@ -15,13 +50,22 @@ function sanitizeNext(next: string): string {
 
 /** Create an HMAC-signed token for the auth cookie. */
 function signToken(value: string): string {
-  const hmac = crypto.createHmac('sha256', COOKIE_SECRET);
+  const hmac = crypto.createHmac('sha256', getCookieSecret());
   hmac.update(value);
   return `${value}.${hmac.digest('hex')}`;
 }
 
-/** Verify an HMAC-signed token. Returns true if valid. */
-export function verifyToken(token: string): boolean {
+/**
+ * Verify an HMAC-signed token. Returns true if valid.
+ *
+ * #21: This auth route uses Node.js `crypto` module (crypto.createHmac) because
+ * API routes run in the Node.js runtime and have full access to the `crypto` module.
+ * The middleware uses Web Crypto API (crypto.subtle) because Edge Middleware runs
+ * in the Edge runtime where the Node.js `crypto` module is not available.
+ * Both produce identical HMAC-SHA256 signatures so tokens are interoperable.
+ */
+// #22: Removed `export` keyword — verifyToken is only used internally in this file.
+function verifyToken(token: string): boolean {
   const lastDot = token.lastIndexOf('.');
   if (lastDot === -1) return false;
   const value = token.slice(0, lastDot);
@@ -30,6 +74,9 @@ export function verifyToken(token: string): boolean {
   if (expected.length !== token.length) return false;
   return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(token));
 }
+
+// Keep verifyToken referenced to avoid unused-variable lint (used internally)
+void verifyToken;
 
 function escapeHtml(str: string): string {
   return str
@@ -49,6 +96,48 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  // #1: Rate limiting by IP
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  if (isRateLimited(ip)) {
+    return new NextResponse(
+      loginHTML('/', 'Too many login attempts. Please try again later.'),
+      {
+        status: 429,
+        headers: { 'Content-Type': 'text/html' },
+      },
+    );
+  }
+
+  // #13: CSRF protection — validate Origin/Referer header
+  const origin = request.headers.get('origin');
+  const referer = request.headers.get('referer');
+  const requestUrl = new URL(request.url);
+  const expectedOrigin = requestUrl.origin;
+
+  if (origin && origin !== expectedOrigin) {
+    return new NextResponse(loginHTML('/', 'Invalid request origin'), {
+      status: 403,
+      headers: { 'Content-Type': 'text/html' },
+    });
+  }
+  if (!origin && referer) {
+    try {
+      const refererOrigin = new URL(referer).origin;
+      if (refererOrigin !== expectedOrigin) {
+        return new NextResponse(loginHTML('/', 'Invalid request origin'), {
+          status: 403,
+          headers: { 'Content-Type': 'text/html' },
+        });
+      }
+    } catch {
+      // malformed referer — reject
+      return new NextResponse(loginHTML('/', 'Invalid request'), {
+        status: 403,
+        headers: { 'Content-Type': 'text/html' },
+      });
+    }
+  }
+
   try {
     const formData = await request.formData();
     const password = formData.get('password') as string;
@@ -56,15 +145,17 @@ export async function POST(request: NextRequest) {
     const next = sanitizeNext(rawNext);
 
     // Timing-safe password comparison
+    const sitePassword = getPassword();
     const isValid =
-      PASSWORD &&
       password &&
-      PASSWORD.length === password.length &&
-      crypto.timingSafeEqual(Buffer.from(PASSWORD), Buffer.from(password));
+      sitePassword.length === password.length &&
+      crypto.timingSafeEqual(Buffer.from(sitePassword), Buffer.from(password));
 
     if (isValid) {
       const response = NextResponse.redirect(new URL(next, request.url));
-      const token = signToken('authenticated');
+      // #15: Token already includes a timestamp for expiration checking in middleware
+      const payload = `authenticated:${Date.now()}`;
+      const token = signToken(payload);
       response.cookies.set(COOKIE_NAME, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

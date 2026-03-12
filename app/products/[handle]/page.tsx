@@ -48,6 +48,12 @@ export async function generateMetadata({
       description: product.description?.slice(0, 160) || '',
       images: image ? [{ url: image.url, width: image.width, height: image.height, alt: product.title }] : [],
     },
+    // #25: Twitter image on PDP
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.title} | GFS Logbook`,
+      images: image ? [{ url: image.url, alt: product.title }] : [],
+    },
   };
 }
 
@@ -100,6 +106,8 @@ export default async function ProductPage({
       '@type': 'Brand',
       name: 'Ghost Forest Surf Club',
     },
+    // #23: Add sku field to JSON-LD
+    sku: product.handle,
     ...(hasMultiplePrices
       ? {
           offers: {
@@ -138,7 +146,8 @@ export default async function ProductPage({
   return (
     <Suspense fallback={<PDPSkeleton />}>
       <ErrorBoundary>
-        <main id="main-content" className="min-h-screen bg-aged-cream text-navy pb-20 md:pb-0">
+        {/* #10: tabIndex={-1} so skip-to-content link can programmatically focus main */}
+        <main id="main-content" tabIndex={-1} className="min-h-screen bg-aged-cream text-navy pb-20 md:pb-0">
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: jsonLdString }}

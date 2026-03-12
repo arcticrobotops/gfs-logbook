@@ -9,25 +9,52 @@ export function formatPrice(amount: number): string {
 }
 
 /**
- * Basic HTML sanitizer that strips <script> tags, event handler attributes,
- * and other dangerous patterns from HTML strings.
+ * #4: Allowlist-based HTML sanitizer.
+ * Only permits safe tags: p, br, strong, em, b, i, ul, ol, li, a, h2, h3, h4, span, div.
+ * Strips ALL attributes except href on <a> tags (validated to http/https only).
+ * All other tags and attributes are removed entirely.
  */
+const ALLOWED_TAGS = new Set([
+  'p', 'br', 'strong', 'em', 'b', 'i', 'ul', 'ol', 'li',
+  'a', 'h2', 'h3', 'h4', 'span', 'div',
+]);
+
 export function sanitizeHtml(html: string): string {
-  return html
-    // Remove <script> tags and their contents
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    // Remove standalone <script> tags (unclosed)
-    .replace(/<script\b[^>]*>/gi, '')
-    // Remove event handler attributes (on*)
-    .replace(/\s+on\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
-    // Remove javascript: URLs in href/src/action attributes
-    .replace(/(href|src|action)\s*=\s*(?:"javascript:[^"]*"|'javascript:[^']*')/gi, '$1=""')
-    // Remove <iframe> tags
-    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
-    .replace(/<iframe\b[^>]*>/gi, '')
-    // Remove <object> tags
-    .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
-    .replace(/<object\b[^>]*>/gi, '')
-    // Remove <embed> tags
-    .replace(/<embed\b[^>]*>/gi, '');
+  // Replace all HTML tags with sanitized versions
+  return html.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b([^>]*)?\/?>/gi, (match, tagName: string, attrs: string) => {
+    const tag = tagName.toLowerCase();
+
+    // Strip disallowed tags entirely
+    if (!ALLOWED_TAGS.has(tag)) {
+      return '';
+    }
+
+    // Check if this is a closing tag
+    if (match.startsWith('</')) {
+      return `</${tag}>`;
+    }
+
+    // Self-closing check (e.g. <br />)
+    const selfClosing = tag === 'br';
+
+    // For <a> tags, extract and validate href (http/https only)
+    if (tag === 'a' && attrs) {
+      const hrefMatch = attrs.match(/href\s*=\s*(?:"([^"]*)"|'([^']*)'|(\S+))/i);
+      if (hrefMatch) {
+        const href = hrefMatch[1] ?? hrefMatch[2] ?? hrefMatch[3] ?? '';
+        // Only allow http:// and https:// URLs
+        if (/^https?:\/\//i.test(href)) {
+          const safeHref = href
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;');
+          return `<a href="${safeHref}">`;
+        }
+      }
+      // No valid href or non-http href — render <a> without attributes
+      return '<a>';
+    }
+
+    // All other allowed tags — strip all attributes
+    return selfClosing ? `<${tag} />` : `<${tag}>`;
+  });
 }

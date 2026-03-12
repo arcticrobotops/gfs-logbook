@@ -21,6 +21,8 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
   const [dateLabel, setDateLabel] = useState('');
   const [dateStamp, setDateStamp] = useState('');
   const gridRef = useRef<HTMLDivElement>(null);
+  // #12: AbortController ref for cancelling in-flight fetches
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     setDateLabel(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short' }).toUpperCase());
@@ -32,6 +34,13 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
     setLoading(true);
     setError(false);
 
+    // #12: Abort any in-flight request before starting a new one
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     // On mobile, scroll to product grid so results are visible
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -39,15 +48,22 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
 
     try {
       const params = handle !== 'all' ? `?collection=${handle}` : '';
-      const res = await fetch(`/api/products${params}`);
+      const res = await fetch(`/api/products${params}`, { signal: controller.signal });
       if (!res.ok) throw new Error(`Failed to fetch products: ${res.status}`);
       const data = await res.json();
       setProducts(data.products || []);
     } catch (err) {
+      // Ignore aborted requests
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        return;
+      }
       console.error('Failed to fetch products:', err);
       setError(true);
     } finally {
-      setLoading(false);
+      // Only clear loading if this controller wasn't aborted
+      if (!controller.signal.aborted) {
+        setLoading(false);
+      }
     }
   }, []);
 
@@ -89,7 +105,8 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
         />
       </ErrorBoundary>
 
-      <main id="main-content" className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
+      {/* #10: tabIndex={-1} so skip-to-content link can programmatically focus main */}
+      <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Editorial intro — warmth before the ledger */}
         <div className="mb-8 sm:mb-12 px-1 sm:px-0">
           <div className="max-w-xl">
@@ -145,76 +162,81 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
           </p>
         </div>
 
-        {error ? (
-          <div className="border-2 border-signal-red/30 p-8 text-center">
-            <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-signal-red mb-2">&#9670;</p>
-            <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-signal-red font-semibold">
-              TRANSMISSION ERROR
-            </p>
-            <p className="font-mono text-xs tracking-[0.08em] sm:tracking-[0.15em] text-graphite/60 mt-1 mb-4">
-              FAILED TO RETRIEVE MANIFEST DATA
-            </p>
-            <button
-              onClick={() => handleCollectionChange(activeCollection)}
-              className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-aged-cream bg-navy border-2 border-navy px-6 py-2.5 hover:bg-signal-red hover:border-signal-red transition-colors"
-            >
-              RETRY TRANSMISSION
-            </button>
-          </div>
-        ) : loading ? (
-          <div className="py-12">
-            {/* Station-style loading skeleton */}
-            <div className="border-2 border-navy/20 p-6 mb-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-px flex-1 bg-navy/10" />
-                <p className="font-mono text-xs tracking-[0.15em] sm:tracking-[0.3em] text-brass animate-pulse">
-                  RETRIEVING MANIFEST...
-                </p>
-                <div className="h-px flex-1 bg-navy/10" />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs text-navy/30">001</span>
-                  <div className="h-2 bg-navy/8 flex-1" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs text-navy/30">002</span>
-                  <div className="h-2 bg-navy/6 w-3/4" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs text-navy/30">003</span>
-                  <div className="h-2 bg-navy/4 w-1/2" />
-                </div>
-              </div>
+        {/* #9: Wrap loading/error/empty states in aria-live region for screen readers */}
+        <div aria-live="polite" aria-atomic="true">
+          {error ? (
+            <div className="border-2 border-signal-red/30 p-8 text-center">
+              <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-signal-red mb-2">&#9670;</p>
+              <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-signal-red font-semibold">
+                TRANSMISSION ERROR
+              </p>
+              <p className="font-mono text-xs tracking-[0.08em] sm:tracking-[0.15em] text-graphite/60 mt-1 mb-4">
+                FAILED TO RETRIEVE MANIFEST DATA
+              </p>
+              <button
+                onClick={() => handleCollectionChange(activeCollection)}
+                className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-aged-cream bg-navy border-2 border-navy px-6 py-2.5 hover:bg-signal-red hover:border-signal-red transition-colors"
+              >
+                RETRY TRANSMISSION
+              </button>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-5">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="border border-navy/10">
-                  <div className="px-2 py-2">
-                    <div className="h-1.5 bg-navy/8 w-12" />
+          ) : loading ? (
+            <div className="py-12">
+              {/* Station-style loading skeleton */}
+              <div className="border-2 border-navy/20 p-6 mb-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-px flex-1 bg-navy/10" />
+                  <p className="font-mono text-xs tracking-[0.15em] sm:tracking-[0.3em] text-brass animate-pulse">
+                    RETRIEVING MANIFEST...
+                  </p>
+                  <div className="h-px flex-1 bg-navy/10" />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs text-navy/30">001</span>
+                    <div className="h-2 bg-navy/8 flex-1" />
                   </div>
-                  <div className="h-px bg-navy/5" />
-                  <div className="h-40 bg-navy/3" />
-                  <div className="h-px bg-navy/5" />
-                  <div className="px-2 py-3 space-y-1.5">
-                    <div className="h-1.5 bg-navy/6 w-full" />
-                    <div className="h-1.5 bg-navy/4 w-2/3" />
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs text-navy/30">002</span>
+                    <div className="h-2 bg-navy/6 w-3/4" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs text-navy/30">003</span>
+                    <div className="h-2 bg-navy/4 w-1/2" />
                   </div>
                 </div>
-              ))}
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-5">
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} className="border border-navy/10">
+                    <div className="px-2 py-2">
+                      <div className="h-1.5 bg-navy/8 w-12" />
+                    </div>
+                    <div className="h-px bg-navy/5" />
+                    <div className="h-40 bg-navy/3" />
+                    <div className="h-px bg-navy/5" />
+                    <div className="px-2 py-3 space-y-1.5">
+                      <div className="h-1.5 bg-navy/6 w-full" />
+                      <div className="h-1.5 bg-navy/4 w-2/3" />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : products.length === 0 ? (
-          <div className="border-2 border-navy/20 p-8 text-center">
-            <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-brass mb-2">&#9670;</p>
-            <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-graphite">
-              NO ITEMS IN THIS DEPARTMENT
-            </p>
-            <p className="font-mono text-xs tracking-[0.08em] sm:tracking-[0.15em] text-graphite/50 mt-1">
-              INVENTORY RECORDS EMPTY
-            </p>
-          </div>
-        ) : (
+          ) : products.length === 0 ? (
+            <div className="border-2 border-navy/20 p-8 text-center">
+              <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-brass mb-2">&#9670;</p>
+              <p className="font-mono text-xs tracking-[0.1em] sm:tracking-[0.2em] text-graphite">
+                NO ITEMS IN THIS DEPARTMENT
+              </p>
+              <p className="font-mono text-xs tracking-[0.08em] sm:tracking-[0.15em] text-graphite/50 mt-1">
+                INVENTORY RECORDS EMPTY
+              </p>
+            </div>
+          ) : null}
+        </div>
+
+        {!error && !loading && products.length > 0 && (
           <>
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-5">
             {feedItems.map((item, feedIndex) => {

@@ -4,7 +4,7 @@
   --color-aged-cream: #F0E8D0;
   --color-navy: #1A2744;
   --color-signal-red: #C0392B;
-  --color-brass: #B8860B;
+  --color-brass: #7A5A0B;
   --color-graphite: #3C3C3C;
 
   --font-playfair: 'Playfair Display', serif;
@@ -90,7 +90,7 @@ a:hover:not([class]) {
   content: '';
   flex: 1;
   height: 1px;
-  background-color: #B8860B;
+  background-color: #7A5A0B;
   opacity: 0.3;
 }
 
@@ -131,8 +131,8 @@ a:hover:not([class]) {
 }
 
 .stamp-brass {
-  color: #B8860B;
-  border-color: #B8860B;
+  color: #7A5A0B;
+  border-color: #7A5A0B;
 }
 
 .stamp-navy {
@@ -157,7 +157,7 @@ a:hover:not([class]) {
 .diamond-sep {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
-  color: #B8860B;
+  color: #7A5A0B;
 }
 
 .diamond-sep::before {
@@ -166,4 +166,18 @@ a:hover:not([class]) {
 
 .safe-area-bottom {
   padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+/* #11: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }

@@ -10,9 +10,9 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
   return (
     <div className="min-h-screen bg-aged-cream flex items-center justify-center px-6">
       <div className="text-center max-w-md">
-        <h2 className="font-playfair text-2xl mb-4 text-navy">
+        <h1 className="font-playfair text-2xl mb-4 text-navy">
           Something went wrong
-        </h2>
+        </h1>
         <p className="font-sans text-sm text-navy/60 mb-8">
           We hit a snag loading the page. This usually resolves on retry.
         </p>

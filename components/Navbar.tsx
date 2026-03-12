@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ShopifyCollection } from '@/types/shopify';
 
 interface NavbarProps {
@@ -12,6 +12,7 @@ interface NavbarProps {
 export default function Navbar({ collections, activeCollection, onCollectionChange }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   const filteredCollections = collections.filter(
     (c) => c.handle !== 'frontpage' && c.title.toLowerCase() !== 'home'
@@ -27,6 +28,32 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
       el.style.maxHeight = '0px';
     }
   }, [mobileMenuOpen]);
+
+  // #8: Focus first item on open, return focus to toggle on close
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      // Focus the first button inside the mobile menu
+      const firstBtn = menuRef.current?.querySelector('button');
+      if (firstBtn) {
+        requestAnimationFrame(() => {
+          (firstBtn as HTMLElement).focus();
+        });
+      }
+    }
+  }, [mobileMenuOpen]);
+
+  // #8: Escape key closes menu and returns focus to toggle
+  const handleMenuKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setMobileMenuOpen(false);
+      toggleRef.current?.focus();
+    }
+  }, []);
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+    toggleRef.current?.focus();
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 bg-aged-cream" aria-label="Main navigation">
@@ -85,6 +112,7 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
 
           {/* Mobile menu button */}
           <button
+            ref={toggleRef}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
@@ -95,16 +123,20 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
         </div>
 
         {/* Mobile menu with CSS transition */}
+        {/* #8: aria-hidden when closed */}
         <div
           id="mobile-menu"
           ref={menuRef}
+          aria-hidden={!mobileMenuOpen}
+          onKeyDown={handleMenuKeyDown}
           className="md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out"
           style={{ maxHeight: 0, opacity: mobileMenuOpen ? 1 : 0 }}
         >
           <div className="pb-4 flex flex-wrap gap-2">
             <button
-              onClick={() => { onCollectionChange('all'); setMobileMenuOpen(false); }}
+              onClick={() => { onCollectionChange('all'); closeMobileMenu(); }}
               aria-current={activeCollection === 'all' ? 'true' : undefined}
+              tabIndex={mobileMenuOpen ? 0 : -1}
               className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                 activeCollection === 'all'
                   ? 'bg-navy text-aged-cream border-navy'
@@ -116,8 +148,9 @@ export default function Navbar({ collections, activeCollection, onCollectionChan
             {filteredCollections.map((collection) => (
               <button
                 key={collection.handle}
-                onClick={() => { onCollectionChange(collection.handle); setMobileMenuOpen(false); }}
+                onClick={() => { onCollectionChange(collection.handle); closeMobileMenu(); }}
                 aria-current={activeCollection === collection.handle ? 'true' : undefined}
+                tabIndex={mobileMenuOpen ? 0 : -1}
                 className={`font-mono text-xs tracking-[0.15em] uppercase px-3 py-1.5 border transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy ${
                   activeCollection === collection.handle
                     ? 'bg-navy text-aged-cream border-navy'

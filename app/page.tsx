@@ -22,8 +22,22 @@ export default async function Home() {
     console.error('Failed to fetch from Shopify:', error);
   }
 
+  // #24: Home page WebSite JSON-LD
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Coast Station Log — Ghost Forest Surf Club',
+    url: 'https://ghostforestsurfclub.com',
+    description: 'Maritime inventory of coldwater surf goods. Station 45 N. Neskowin, Oregon.',
+  };
+  const websiteJsonLdString = JSON.stringify(websiteJsonLd).replace(/</g, '\\u003c');
+
   return (
     <div className="min-h-screen bg-aged-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: websiteJsonLdString }}
+      />
       <ErrorBoundary>
         <HeroSection />
       </ErrorBoundary>

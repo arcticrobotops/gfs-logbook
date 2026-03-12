@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getProducts } from '@/lib/shopify';
 
+// #20: Validate collection handle matches safe pattern
+const COLLECTION_PATTERN = /^[a-z0-9-]+$/i;
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const collection = searchParams.get('collection') || undefined;
+
+  // #20: Validate collection parameter if provided
+  if (collection && !COLLECTION_PATTERN.test(collection)) {
+    return NextResponse.json(
+      { error: 'Invalid collection parameter', products: [] },
+      { status: 400 }
+    );
+  }
 
   try {
     const data = await getProducts(50, undefined, collection);
