@@ -152,7 +152,8 @@ export async function POST(request: NextRequest) {
       crypto.timingSafeEqual(Buffer.from(sitePassword), Buffer.from(password));
 
     if (isValid) {
-      const response = NextResponse.redirect(new URL(next, request.url));
+      // 303 See Other — ensures the browser follows the redirect with GET (not POST)
+      const response = NextResponse.redirect(new URL(next, request.url), 303);
       // #15: Token already includes a timestamp for expiration checking in middleware
       const payload = `authenticated:${Date.now()}`;
       const token = signToken(payload);
