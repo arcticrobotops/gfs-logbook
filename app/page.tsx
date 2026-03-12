@@ -10,6 +10,7 @@ export const revalidate = 60;
 export default async function Home() {
   let products: ShopifyProduct[] = [];
   let collections: ShopifyCollection[] = [];
+  let fetchError = false;
 
   try {
     const [productsData, collectionsData] = await Promise.all([
@@ -18,8 +19,12 @@ export default async function Home() {
     ]);
     products = productsData.products;
     collections = collectionsData;
+    if (products.length === 0) {
+      console.warn('[GFS Logbook] Shopify returned zero products');
+    }
   } catch (error) {
-    console.error('Failed to fetch from Shopify:', error);
+    fetchError = true;
+    console.error('[GFS Logbook] Failed to fetch from Shopify:', error);
   }
 
   // #24: Home page WebSite JSON-LD
@@ -41,10 +46,46 @@ export default async function Home() {
       <ErrorBoundary>
         <HeroSection />
       </ErrorBoundary>
-      <FeedLayout
-        initialProducts={products}
-        collections={collections}
-      />
+      {fetchError ? (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '80px 24px',
+            textAlign: 'center',
+          }}
+        >
+          <div style={{ color: '#7A5A0B', fontSize: '14px', letterSpacing: '0.25em', marginBottom: '16px' }}>&#9670;</div>
+          <h2
+            style={{
+              fontFamily: '"Playfair Display", Georgia, serif',
+              fontSize: '1.25rem',
+              color: '#1A2744',
+              marginBottom: '12px',
+            }}
+          >
+            Station log temporarily unavailable
+          </h2>
+          <p
+            style={{
+              fontFamily: '"DM Sans", system-ui, sans-serif',
+              fontSize: '0.875rem',
+              color: '#666666',
+              maxWidth: '20rem',
+              lineHeight: '1.6',
+            }}
+          >
+            We&apos;re having trouble loading inventory. Please refresh to try again.
+          </p>
+        </div>
+      ) : (
+        <FeedLayout
+          initialProducts={products}
+          collections={collections}
+        />
+      )}
       <Footer />
     </div>
   );
