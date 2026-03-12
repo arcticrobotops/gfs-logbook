@@ -62,6 +62,20 @@ export default async function ProductPage({
   const primaryImage = images[0];
   const price = parseFloat(product.priceRange.minVariantPrice.amount);
   const collection = product.collections.edges[0]?.node;
+
+  // Related items
+  const { products: allRelated } = await getProducts(20, undefined, collection?.handle || undefined);
+  const relatedProducts = allRelated
+    .filter((p) => p.handle !== handle)
+    .slice(0, 4)
+    .map((p, i) => ({
+      handle: p.handle,
+      title: p.title,
+      price: parseFloat(p.priceRange.minVariantPrice.amount),
+      imageUrl: p.images.edges[0]?.node.url || null,
+      imageAlt: p.images.edges[0]?.node.altText || null,
+      itemNo: String(i + 1).padStart(3, '0'),
+    }));
   const shopifyUrl =
     product.onlineStoreUrl ||
     `https://ghostforestsurfclub.com/products/${product.handle}`;
@@ -143,7 +157,7 @@ export default async function ProductPage({
               <div className="h-px bg-navy/10" />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               {/* Image section */}
               <div>
                 {primaryImage && (
@@ -296,6 +310,56 @@ export default async function ProductPage({
                 </ErrorBoundary>
               </div>
             </div>
+
+            {/* Related Items */}
+            {relatedProducts.length > 0 && (
+              <div className="mt-12 pt-8 border-t-[2px] border-navy/20">
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="font-mono text-xs tracking-[0.3em] text-navy font-bold">
+                    RELATED INVENTORY
+                  </span>
+                  <div className="flex-1 h-px bg-navy/10" />
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  {relatedProducts.map((rp) => (
+                    <Link
+                      key={rp.handle}
+                      href={`/products/${rp.handle}`}
+                      className="group block border-[1.5px] border-navy/20 hover:border-navy transition-colors"
+                    >
+                      <div className="px-2 py-1 border-b border-navy/10 bg-navy/[0.03]">
+                        <span className="font-mono text-[10px] tracking-[0.2em] text-graphite uppercase">
+                          ITEM {rp.itemNo}
+                        </span>
+                      </div>
+                      <div className="relative aspect-square overflow-hidden bg-aged-cream/50">
+                        {rp.imageUrl ? (
+                          <Image
+                            src={rp.imageUrl}
+                            alt={rp.imageAlt || rp.title}
+                            fill
+                            sizes="(max-width: 640px) 50vw, 25vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="font-mono text-xs text-graphite/40">NO IMG</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-2">
+                        <h3 className="font-sans text-xs font-semibold tracking-wide text-navy uppercase leading-tight line-clamp-2 group-hover:text-signal-red transition-colors">
+                          {rp.title}
+                        </h3>
+                        <p className="font-mono text-[11px] text-brass mt-1">
+                          ${rp.price % 1 === 0 ? rp.price.toFixed(0) : rp.price.toFixed(2)}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </ErrorBoundary>
