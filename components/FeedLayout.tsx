@@ -120,7 +120,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
               </p>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-              <span className="font-mono text-xs sm:text-xs tracking-[0.15em] sm:tracking-[0.2em] text-brass font-semibold">
+              <span className="font-mono text-xs sm:text-xs tracking-[0.15em] sm:tracking-[0.2em] text-brass font-semibold" aria-live="polite" aria-atomic="true">
                 {products.length} ITEMS
               </span>
               {activeCollection !== 'all' && (
