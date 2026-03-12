@@ -36,6 +36,11 @@ export const metadata: Metadata = {
     description: "Maritime inventory of coldwater surf goods. Station 45°N. Neskowin, Oregon.",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Coast Station Log — Ghost Forest Surf Club",
+    description: "Maritime inventory of coldwater surf goods. Station 45°N. Neskowin, Oregon.",
+  },
 };
 
 export default function RootLayout({
