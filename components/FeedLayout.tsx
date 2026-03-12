@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ShopifyProduct, ShopifyCollection } from '@/types/shopify';
 import Navbar from './Navbar';
 import ProductCard from './ProductCard';
@@ -18,6 +18,13 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
   const [activeCollection, setActiveCollection] = useState('all');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [dateLabel, setDateLabel] = useState('');
+  const [dateStamp, setDateStamp] = useState('');
+
+  useEffect(() => {
+    setDateLabel(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short' }).toUpperCase());
+    setDateStamp(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase());
+  }, []);
 
   const handleCollectionChange = useCallback(async (handle: string) => {
     setActiveCollection(handle);
@@ -90,7 +97,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
               Every piece in this manifest was tested in 48-degree water off Proposal Rock before it earned a place in the lineup. Built for fog, salt, and the long paddle north.
             </p>
             <p className="font-mono text-xs tracking-[0.12em] sm:tracking-[0.25em] text-graphite/35 mt-5 sm:mt-6 uppercase">
-              Current inventory &middot; {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short' }).toUpperCase()}
+              Current inventory &middot; {dateLabel}
             </p>
           </div>
         </div>
@@ -127,7 +134,7 @@ export default function FeedLayout({ initialProducts, collections }: FeedLayoutP
             <div className="flex-1 h-px bg-brass/20" />
           </div>
           <p className="font-mono text-xs sm:text-xs tracking-[0.15em] sm:tracking-[0.2em] text-graphite/50 mt-1.5 sm:mt-2">
-            DATE: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase()} / GENERAL
+            DATE: {dateStamp} / GENERAL
           </p>
         </div>
 
