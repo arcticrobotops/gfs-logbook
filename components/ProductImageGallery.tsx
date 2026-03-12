@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
+const BLUR_DATA_URL = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+PHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPScjRjJFREU1Jy8+PC9zdmc+';
+
 interface ProductImage {
   url: string;
   altText: string | null;
@@ -39,6 +41,8 @@ export default function ProductImageGallery({ images, title }: ProductImageGalle
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"
             priority
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
           />
         </div>
       </div>
@@ -72,6 +76,8 @@ export default function ProductImageGallery({ images, title }: ProductImageGalle
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 33vw, 16vw"
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
                 />
               </div>
             </button>
